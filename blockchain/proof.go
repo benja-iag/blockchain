@@ -19,7 +19,7 @@ type ProofOfWork struct {
 func (pow *ProofOfWork) InitData(nonce int) []byte {
 	data := bytes.Join(
 		[][]byte{
-			[]byte(pow.Block.PreviuosHash),
+			[]byte(pow.Block.PreviousHash),
 			pow.Block.Transaction,
 			ToHex(int64(nonce)),
 			ToHex(int64(Difficulty)),
@@ -28,7 +28,7 @@ func (pow *ProofOfWork) InitData(nonce int) []byte {
 	)
 	return data
 }
-func (pow *ProofOfWork) Run() (int, [] byte){
+func (pow *ProofOfWork) Run() (int, []byte) {
 	var intHash big.Int
 	var hash [32]byte
 	nonce := 0
@@ -40,9 +40,9 @@ func (pow *ProofOfWork) Run() (int, [] byte){
 		intHash.SetBytes(hash[:])
 		if intHash.Cmp(pow.Target) == -1 {
 			break
-		} 
-			nonce++
-			
+		}
+		nonce++
+
 	}
 
 	return nonce, hash[:]
