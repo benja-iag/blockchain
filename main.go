@@ -8,11 +8,14 @@ import (
 
 func main() {
 	chain := blockchain.InitBlockChain()
+	defer chain.Database.Close()
 	chain.AddBlock("1 BTC to Jacky")
 	chain.AddBlock("2 BTC to Jacky")
 	chain.AddBlock("3 BTC to Jacky")
-	for _, block :=  range chain.Blocks {
-		fmt.Printf("PrevHash %x\n", block.PreviuosHash)
+
+	it := chain.Iterator()
+	for block := it.Next(); block != nil; block = it.Next() {
+		fmt.Printf("PrevHash %x\n", block.PreviousHash)
 		fmt.Printf("Data %s\n", block.Transaction)
 		fmt.Printf("Hash %x\n", block.Hash)
 		pow := blockchain.NewProof(block)
