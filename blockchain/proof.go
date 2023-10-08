@@ -19,8 +19,8 @@ type ProofOfWork struct {
 func (pow *ProofOfWork) InitData(nonce int) []byte {
 	data := bytes.Join(
 		[][]byte{
-			[]byte(pow.Block.PreviousHash),
-			pow.Block.Transaction,
+			pow.Block.PreviousHash,
+			pow.Block.HashTransactions(),
 			ToHex(int64(nonce)),
 			ToHex(int64(Difficulty)),
 		},
