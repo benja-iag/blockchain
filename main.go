@@ -10,9 +10,6 @@ import (
 	"log"	
 )
 
-
-
-
 type CommandLine struct {}
 
 func (cli *CommandLine) printUsage() {
@@ -53,7 +50,8 @@ func (cli *CommandLine) printChain(){
 func (cli *CommandLine) createBlockChain(address string) {
 	chains := blockchain.InitBlockChain(address)
 	defer chains.Database.Close()
-	fmt.Println("Finished!")
+	fmt.Println("Finished creating blockchain!")
+//	fmt.Printf("chain:%b", chains)	
 }
 
 
@@ -78,8 +76,9 @@ func (cli *CommandLine) send(from, to string, amount int) {
 
 	tx := blockchain.NewTransaction(from, to, amount, chains)
 	chains.AddBlock([]*blockchain.Transaction{tx})
-	fmt.Println("Success!")
+	fmt.Println("Success sending coins")
 }
+
 
 func (cli *CommandLine) run () {
 	cli.validateArgs()
@@ -87,8 +86,10 @@ func (cli *CommandLine) run () {
 	getBalanceCmd := flag.NewFlagSet("getbalance", flag.ExitOnError)
 	printChainCmd := flag.NewFlagSet("printchain", flag.ExitOnError)
 	createBlockchainCmd := flag.NewFlagSet("createblockchain", flag.ExitOnError)
+
 	getBalanceAddress := getBalanceCmd.String("address", "", "The address to get balance for")
 	createBlockchainAddress := createBlockchainCmd.String("address", "", "The address to send genesis block reward to")
+
 	sendCmd := flag.NewFlagSet("send", flag.ExitOnError)
 	sendFrom := sendCmd.String("from", "", "Source wallet address")
 	sendTo := sendCmd.String("to", "", "Destination wallet address")
@@ -148,10 +149,6 @@ func (cli *CommandLine) run () {
 	if printChainCmd.Parsed() {
 		cli.printChain()
 	}
-
-
-
-	fmt.Println("Finished")
 }
 
 

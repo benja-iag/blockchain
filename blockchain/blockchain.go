@@ -6,16 +6,18 @@ import (
 	"os"
 	"log"
 	"encoding/hex"
-	
+	//"github.com/syndtr/goleveldb/leveldb"
 	"blockchain1/database"
 )
 
 
 const (
 	dbPath = "./tmp/blocks"
-	dfFile = "./tmp/blocks/MANIFEST"
+	dbFile = dbPath + "/CURRENT"
 	genesisData = "First Transaction from Genesis"
 )
+
+
 
 type Blockchain struct {
 	LastHash []byte
@@ -24,12 +26,12 @@ type Blockchain struct {
 
 type BlockchainIterator struct {
 	CurrentHash []byte
-	Database    database.DB
+	Database 	database.DB
 }
 
 func DBexists() bool {
-	if _, err := os.Stat(dfFile); os.IsNotExist(err) {
-		fmt.Println("No existing blockchain found, create one!")	
+	if _, err := os.Stat(dbFile); os.IsNotExist(err) {
+		fmt.Println("DBexists: No existing blockchain found, create one!")	
 		return false
 	}
 	return true
@@ -39,9 +41,10 @@ func InitBlockChain(address string) *Blockchain {
     var lasthash []byte
 
     if DBexists(){
-        fmt.Println("Blockchain already exists.")
+        fmt.Println("InitBlockChain: Blockchain already exists.")
         runtime.Goexit()
     }
+	
 
 	db, err := database.NewLevelDB(dbPath)
 	if err != nil {
@@ -50,7 +53,7 @@ func InitBlockChain(address string) *Blockchain {
 
     cbtx := CoinbaseTx(address, genesisData)
     genesis := GenesisBlock(cbtx)
-    fmt.Println("Genesis Created")
+    fmt.Println("InitBlockChain: Genesis Created")
     err = db.Put(genesis.Hash, genesis.Serialize())
     if err != nil {
         log.Panic(err)
@@ -63,7 +66,7 @@ func InitBlockChain(address string) *Blockchain {
 
 func ContinueBlockChain(address string) *Blockchain {
     if DBexists() == false {
-        fmt.Println("No existing blockchain found, create one!")
+        fmt.Println("ContinueBlockChain: No existing blockchain found, create one!")
         runtime.Goexit()
     }
 
@@ -203,6 +206,6 @@ func (iter *BlockchainIterator) Next() *Block {
 
 	block = Deserialize(serializedBlock)
 
-	iter.CurrentHash = []byte(block.PreviousHash)
+	iter.CurrentHash =block.PreviousHash
 	return block
 }

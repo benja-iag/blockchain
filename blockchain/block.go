@@ -30,16 +30,12 @@ func (b *Block) HashTransactions() []byte{
 }
 
 func CreateBlock(txs []*Transaction, prevHash []byte) *Block {
-	block := &Block{
-		TimeStamp:    time.Now().Format("2006-01-02 15:04:05.000"),
-		Transactions: txs,
-		PreviousHash: prevHash,
-		Nonce:        0,
-	}
+	block := &Block{time.Now().Format("2006-01-02 15:04:05.000"), []byte{}, txs, prevHash, 0}
 	pow := NewProof(block)
 	nonce, hash := pow.Run()
 	block.Nonce = nonce
-	block.Hash = hash
+	block.Hash = hash[:]
+	
 	return block
 }
 
