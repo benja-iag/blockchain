@@ -1,16 +1,17 @@
 package main
+
 // https://github.com/benja-iag/blockchain
 import (
 	"blockchain1/blockchain"
-	"strconv"
+	"flag"
 	"fmt"
+	"log"
 	"os"
 	"runtime"
-	"flag"
-	"log"	
+	"strconv"
 )
 
-type CommandLine struct {}
+type CommandLine struct{}
 
 func (cli *CommandLine) printUsage() {
 	fmt.Println("Usage:")
@@ -27,7 +28,7 @@ func (cli *CommandLine) validateArgs() {
 	}
 }
 
-func (cli *CommandLine) printChain(){
+func (cli *CommandLine) printChain() {
 	chains := blockchain.ContinueBlockChain("")
 	defer chains.Database.Close()
 	iter := chains.Iterator()
@@ -51,9 +52,8 @@ func (cli *CommandLine) createBlockChain(address string) {
 	chains := blockchain.InitBlockChain(address)
 	defer chains.Database.Close()
 	fmt.Println("Finished creating blockchain!")
-//	fmt.Printf("chain:%b", chains)	
+	// fmt.Printf("chain:%b", chains)
 }
-
 
 func (cli *CommandLine) getBalance(address string) {
 	chain := blockchain.ContinueBlockChain(address)
@@ -69,7 +69,6 @@ func (cli *CommandLine) getBalance(address string) {
 	fmt.Printf("Balance of %s: %d\n", address, balance)
 }
 
-
 func (cli *CommandLine) send(from, to string, amount int) {
 	chains := blockchain.ContinueBlockChain(from)
 	defer chains.Database.Close()
@@ -79,8 +78,7 @@ func (cli *CommandLine) send(from, to string, amount int) {
 	fmt.Println("Success sending coins")
 }
 
-
-func (cli *CommandLine) run () {
+func (cli *CommandLine) run() {
 	cli.validateArgs()
 
 	getBalanceCmd := flag.NewFlagSet("getbalance", flag.ExitOnError)
@@ -94,7 +92,6 @@ func (cli *CommandLine) run () {
 	sendFrom := sendCmd.String("from", "", "Source wallet address")
 	sendTo := sendCmd.String("to", "", "Destination wallet address")
 	sendAmount := sendCmd.Int("amount", 0, "Amount to send")
-
 
 	switch os.Args[1] {
 	case "getbalance":
@@ -151,10 +148,8 @@ func (cli *CommandLine) run () {
 	}
 }
 
-
 func main() {
 	defer os.Exit(0)
 	cli := CommandLine{}
 	cli.run()
 }
-

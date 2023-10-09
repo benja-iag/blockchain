@@ -2,22 +2,21 @@ package blockchain
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/gob"
 	"log"
 	"time"
-	"crypto/sha256"
 )
 
-
 type Block struct {
-	TimeStamp    string 
-	Hash         []byte 
-	Transactions []*Transaction 
-	PreviousHash []byte 
-	Nonce        int    
+	TimeStamp    string
+	Hash         []byte
+	Transactions []*Transaction
+	PreviousHash []byte
+	Nonce        int
 }
 
-func (b *Block) HashTransactions() []byte{
+func (b *Block) HashTransactions() []byte {
 	var txHashes [][]byte
 	var txHash [32]byte
 
@@ -35,7 +34,7 @@ func CreateBlock(txs []*Transaction, prevHash []byte) *Block {
 	nonce, hash := pow.Run()
 	block.Nonce = nonce
 	block.Hash = hash[:]
-	
+
 	return block
 }
 

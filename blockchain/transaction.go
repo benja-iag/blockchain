@@ -4,24 +4,24 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/gob"
+	"encoding/hex"
 	"fmt"
 	"log"
-	"encoding/hex"
 )
 
 type Transaction struct {
-	ID   []byte
-	Inputs []TxInput
+	ID      []byte
+	Inputs  []TxInput
 	Outputs []TxOutput
 }
 
 type TxOutput struct {
-	Value int
+	Value  int
 	PubKey string
 }
 
 type TxInput struct {
-	ID []byte
+	ID  []byte
 	Out int
 	Sig string
 }
@@ -80,7 +80,7 @@ func NewTransaction(from, to string, amount int, chain *Blockchain) *Transaction
 		if err != nil {
 			log.Panic(err)
 		}
-		
+
 		for _, out := range outs {
 			input := TxInput{txID, out, from}
 			inputs = append(inputs, input)
@@ -97,4 +97,3 @@ func NewTransaction(from, to string, amount int, chain *Blockchain) *Transaction
 
 	return &tx
 }
-
