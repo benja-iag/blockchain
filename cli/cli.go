@@ -88,6 +88,7 @@ func CLI() {
 	if err != nil {
 		log.Panic(err)
 	}*/
+	
 	if createBlockchainCmd.Parsed() {
 		if *createBlockchainAddress == "" {
 			createBlockchainCmd.Usage()
