@@ -11,6 +11,7 @@ func createBlockChain(address string){
 	defer chains.Database.Close()
 	fmt.Println("Blockchain Created")
 }
+
 func getBalance(address string) {
 	chain := blockchain.ContinueBlockChain(address)
 	defer chain.Database.Close()
@@ -24,6 +25,7 @@ func getBalance(address string) {
 
 	fmt.Printf("Balance of %s: %d\n", address, balance)
 }
+
 func printChain() {
 	chains := blockchain.ContinueBlockChain("")
 	defer chains.Database.Close()
@@ -43,6 +45,7 @@ func printChain() {
 		}
 	}
 }
+
 func send(from, to string, amount int) {
 	chains := blockchain.ContinueBlockChain(from)
 	defer chains.Database.Close()
@@ -51,6 +54,7 @@ func send(from, to string, amount int) {
 	chains.AddBlock([]*blockchain.Transaction{tx})
 	fmt.Println("Success sending coins")
 }
+
 func searchBlockByHash(blockHash string) {
 	chain := blockchain.ContinueBlockChain("")
 	defer chain.Database.Close()
