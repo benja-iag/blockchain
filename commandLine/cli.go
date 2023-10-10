@@ -15,6 +15,15 @@ type Option struct {
 	Handler func(string)
 }
 
+func (cli *CommandLine) printOptions() {
+	fmt.Println("Usage:")
+	fmt.Println(" getbalance -address ADDRESS - get the balance for an address")
+	fmt.Println(" createblockchain -address ADDRESS creates a blockchain and sends genesis reward to address")
+	fmt.Println(" printchain - Prints the blocks in the chain")
+	fmt.Println(" searchblock -search block by hash")
+	fmt.Println(" send -from FROM -to TO -amount AMOUNT - Send amount of coins")
+	}
+
 func (cli *CommandLine) Run() {
 	optionsAll := make(map[string]Option)
 
@@ -80,6 +89,7 @@ func (cli *CommandLine) Run() {
 			log.Panic(err)
 		}
 	default:
+		cli.printOptions()
 		runtime.Goexit()
 	}
 
