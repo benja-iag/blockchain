@@ -1,6 +1,7 @@
 package wallet
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
@@ -31,6 +32,17 @@ func (w *Wallet) Address() []byte {
 	// fmt.Printf("pub hash %x\n", pubHash)
 	// fmt.Printf("address %x\n", address)
 	return address
+
+}
+func ValidateAddress(address string) bool {
+	publicKeyHash := Base56Decode([]byte(address))
+	actualCheckSum := publicKeyHash[len(publicKeyHash)-checkSumLength:]
+	version := publicKeyHash[0]
+
+	publicKeyHash = publicKeyHash[1 : len(publicKeyHash)-checkSumLength]
+	targetChecksum := Checksum(append([]byte{version}, publicKeyHash...))
+
+	return bytes.Compare(actualCheckSum, targetChecksum) == 0
 
 }
 
