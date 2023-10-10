@@ -1,5 +1,4 @@
-
-package cli
+package commandLine
 
 import (
 	"flag"
@@ -7,33 +6,34 @@ import (
 	"log"
 	"os"
 	"runtime"
-	"strings"
-	"blockchain1/blockchain"
 )
+
+type CommandLine struct{}
 
 type Option struct {
 	Text    string
 	Handler func(string)
 }
 
-func CLI() {
-	var optionsAll map[string]Option
-	optionsAll ["createblockchain"] = Option{
-		Text: "Create blockchain",
+func (cli *CommandLine) Run() {
+	optionsAll := make(map[string]Option)
+
+	optionsAll["createblockchain"] = Option{
+		Text:    "Create blockchain",
 		Handler: createBlockChain,
 	}
-	optionsAll ["getbalance"] = Option{
-		Text: "Get balance",
+	optionsAll["getbalance"] = Option{
+		Text:    "Get balance",
 		Handler: getBalance,
 	}
-	optionsAll ["printchain"] = Option{
+	optionsAll["printchain"] = Option{
 		Text: "Print chain",
 		Handler: func(string) {
 			printChain()
 		},
 	}
-	optionsAll ["searchblock"] = Option{
-		Text: "Search block by hash",
+	optionsAll["searchblock"] = Option{
+		Text:    "Search block by hash",
 		Handler: searchBlockByHash,
 	}
 
@@ -43,17 +43,15 @@ func CLI() {
 	createBlockchainCmd := flag.NewFlagSet("createblockchain", flag.ExitOnError)
 	searchBlockCmd := flag.NewFlagSet("searchblock", flag.ExitOnError)
 
-
+	fmt.Println("RUN2")
 	getBalanceAddress := getBalanceCmd.String("address", "", "The address to get balance for")
 	createBlockchainAddress := createBlockchainCmd.String("address", "", "The address to send genesis block reward to")
 	blockHash := searchBlockCmd.String("hash", "", "The hash of the block to search for")
-
 
 	sendCmd := flag.NewFlagSet("send", flag.ExitOnError)
 	sendFrom := sendCmd.String("from", "", "Source wallet address")
 	sendTo := sendCmd.String("to", "", "Destination wallet address")
 	sendAmount := sendCmd.Int("amount", 0, "Amount to send")
-
 
 	switch action {
 	case "getbalance":
@@ -84,12 +82,13 @@ func CLI() {
 	default:
 		runtime.Goexit()
 	}
-	
+
 	/*err := createBlockchainCmd.Parse(os.Args[2:])
 	if err != nil {
 		log.Panic(err)
 	}*/
-	
+	fmt.Println("createblockchain", createBlockchainCmd.Parsed())
+
 	if createBlockchainCmd.Parsed() {
 		if *createBlockchainAddress == "" {
 			createBlockchainCmd.Usage()
@@ -130,4 +129,3 @@ func CLI() {
 		optionsAll[action].Handler(*blockHash)
 	}
 }
-
