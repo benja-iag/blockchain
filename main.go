@@ -49,6 +49,7 @@ func (cli *CommandLine) printChain() {
 }
 
 func (cli *CommandLine) createBlockChain(address string) {
+
 	chains := blockchain.InitBlockChain(address)
 	defer chains.Database.Close()
 	fmt.Println("Finished creating blockchain!")
