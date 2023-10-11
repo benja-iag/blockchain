@@ -4,16 +4,18 @@ import (
 	"blockchain1/blockchain"
 	"blockchain1/wallet"
 	"fmt"
-	"strconv"
-)
+	"strconv
 
-func createBlockChain(address string) {
+func createBlockChain(addresses ...string) {
+	address := addresses[0]
+
 	chains := blockchain.InitBlockChain(address)
 	defer chains.Database.Close()
 	fmt.Println("Blockchain Created")
 }
 
-func getBalance(address string) {
+func getBalance(addresses ...string) {
+	address := addresses[0]
 	chain := blockchain.ContinueBlockChain(address)
 	defer chain.Database.Close()
 
@@ -47,7 +49,15 @@ func printChain() {
 	}
 }
 
-func send(from, to string, amount int) {
+func send(vals ...string) {
+	from, to := vals[0], vals[1]
+
+	amount, err := strconv.Atoi(vals[2])
+
+	if err != nil {
+		return
+	}
+
 	chains := blockchain.ContinueBlockChain(from)
 	defer chains.Database.Close()
 
@@ -56,7 +66,8 @@ func send(from, to string, amount int) {
 	fmt.Println("Success sending coins")
 }
 
-func searchBlockByHash(blockHash string) {
+func searchBlockByHash(blockHashes ...string) {
+	blockHash := blockHashes[0]
 	chain := blockchain.ContinueBlockChain("")
 	defer chain.Database.Close()
 
@@ -74,6 +85,8 @@ func searchBlockByHash(blockHash string) {
 		}
 	}
 }
+
+  
 func listAddresses() {
 	wallets, _ := wallet.CreateWallets()
 	addresses := wallets.GetAllAddresses()
@@ -90,3 +103,5 @@ func createWallet() {
 
 	fmt.Printf("New address is: %s\n", address)
 }
+
+
