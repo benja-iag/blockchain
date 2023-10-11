@@ -2,7 +2,6 @@ package main
 
 // https://github.com/benja-iag/blockchain
 
-
 /*
 type CommandLine struct{}
 
@@ -145,9 +144,10 @@ func (cli *CommandLine) createBlockChain(address string) {
 	}
 */
 import (
-	"os"
 	"blockchain1/commandLine"
+	"os"
 )
+
 func main() {
 
 	defer os.Exit(0)
