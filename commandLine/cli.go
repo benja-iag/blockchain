@@ -12,7 +12,7 @@ type CommandLine struct{}
 
 type Option struct {
 	Text    string
-	Handler func(string)
+	Handler func(...string)
 }
 
 func (cli *CommandLine) printOptions() {
@@ -22,7 +22,7 @@ func (cli *CommandLine) printOptions() {
 	fmt.Println(" printchain - Prints the blocks in the chain")
 	fmt.Println(" searchblock -search block by hash")
 	fmt.Println(" send -from FROM -to TO -amount AMOUNT - Send amount of coins")
-	}
+}
 
 func (cli *CommandLine) Run() {
 	optionsAll := make(map[string]Option)
@@ -37,7 +37,7 @@ func (cli *CommandLine) Run() {
 	}
 	optionsAll["printchain"] = Option{
 		Text: "Print chain",
-		Handler: func(string) {
+		Handler: func(...string) {
 			printChain()
 		},
 	}
