@@ -16,18 +16,18 @@ func createBlockChain(addresses ...string) {
 }
 
 func getBalance(addresses ...string) {
-	address := addresses[0]
-	chain := blockchain.ContinueBlockChain(address)
+	publicKeyHash := addresses[0]
+	chain := blockchain.ContinueBlockChain(publicKeyHash)
 	defer chain.Database.Close()
 
 	balance := 0
-	UTXOs := chain.FindUTXO(address)
+	UTXOs := chain.FindUTXO([]byte(publicKeyHash))
 
 	for _, out := range UTXOs {
 		balance += out.Value
 	}
 
-	fmt.Printf("Balance of %s: %d\n", address, balance)
+	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
 }
 
 func printChain() {
@@ -98,8 +98,11 @@ func listAddresses() {
 
 func createWallet() {
 	wallets, _ := wallet.CreateWallets()
+	fmt.Print("wallets ready")
 	address := wallets.AddWallet()
+	fmt.Print("wallets added")
 	wallets.SaveFile()
+	fmt.Print("xd")
 
 	fmt.Printf("New address is: %s\n", address)
 }

@@ -17,7 +17,7 @@ type Option struct {
 
 func (cli *CommandLine) printOptions() {
 	fmt.Println("Usage:")
-	fmt.Println(" getbalance -address ADDRESS - get the balance for an address")
+	fmt.Println(" getbalance -publickeyhash PKEYHASH - get the balance for an publicKeyHash")
 	fmt.Println(" createblockchain -address ADDRESS creates a blockchain and sends genesis reward to address")
 	fmt.Println(" printchain - Prints the blocks in the chain")
 	fmt.Println(" searchblock -search block by hash")
@@ -25,7 +25,6 @@ func (cli *CommandLine) printOptions() {
 
 	fmt.Println(" createwallet - Creates a new Wallet")
 	fmt.Println(" listaddresses - Lists the addresses in our wallet file")
-
 
 }
 
@@ -62,7 +61,14 @@ func (cli *CommandLine) Run() {
 			createWallet()
 		},
 	}
-
+	optionsAll["send"] = Option{
+		Text:    "Send",
+		Handler: send,
+	}
+	if len(os.Args) < 2 {
+		cli.printOptions()
+		return
+	}
 	action := os.Args[1]
 	getBalanceCmd := flag.NewFlagSet("getbalance", flag.ExitOnError)
 	printChainCmd := flag.NewFlagSet("printchain", flag.ExitOnError)
@@ -72,7 +78,7 @@ func (cli *CommandLine) Run() {
 	listAddressesCmd := flag.NewFlagSet("listaddresses", flag.ExitOnError)
 
 	//fmt.Println("RUN2")
-	getBalanceAddress := getBalanceCmd.String("address", "", "The address to get balance for")
+	getBalanceAddress := getBalanceCmd.String("publickeyhash", "", "The publickKeyHash to get balance for")
 	createBlockchainAddress := createBlockchainCmd.String("address", "", "The address to send genesis block reward to")
 	blockHash := searchBlockCmd.String("hash", "", "The hash of the block to search for")
 
@@ -126,7 +132,6 @@ func (cli *CommandLine) Run() {
 	if err != nil {
 		log.Panic(err)
 	}*/
-	fmt.Println("createblockchain", createBlockchainCmd.Parsed())
 
 	if createBlockchainCmd.Parsed() {
 		if *createBlockchainAddress == "" {

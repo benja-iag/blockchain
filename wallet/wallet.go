@@ -6,6 +6,7 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
+	"fmt"
 	"log"
 )
 
@@ -28,9 +29,9 @@ func (w *Wallet) Address() []byte {
 	checkSum := Checksum(versionedHash)
 	fullHash := append(versionedHash, checkSum...)
 	address := Base58Encode(fullHash)
-	// fmt.Printf("Pubkey: %x\n", w.PublicKey)
-	// fmt.Printf("pub hash %x\n", pubHash)
-	// fmt.Printf("address %x\n", address)
+	fmt.Printf("Pubkey: %x\n", w.PublicKey)
+	fmt.Printf("pub hash %x\n", pubHash)
+	fmt.Printf("address %x\n", address)
 	return address
 
 }
