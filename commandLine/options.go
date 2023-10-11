@@ -2,11 +2,12 @@ package commandLine
 
 import (
 	"blockchain1/blockchain"
+	"blockchain1/wallet"
 	"fmt"
 	"strconv"
 )
 
-func createBlockChain(address string){
+func createBlockChain(address string) {
 	chains := blockchain.InitBlockChain(address)
 	defer chains.Database.Close()
 	fmt.Println("Blockchain Created")
@@ -73,5 +74,19 @@ func searchBlockByHash(blockHash string) {
 		}
 	}
 }
+func listAddresses() {
+	wallets, _ := wallet.CreateWallets()
+	addresses := wallets.GetAllAddresses()
 
+	for _, address := range addresses {
+		fmt.Println(address)
+	}
+}
 
+func createWallet() {
+	wallets, _ := wallet.CreateWallets()
+	address := wallets.AddWallet()
+	wallets.SaveFile()
+
+	fmt.Printf("New address is: %s\n", address)
+}

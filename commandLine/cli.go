@@ -22,7 +22,9 @@ func (cli *CommandLine) printOptions() {
 	fmt.Println(" printchain - Prints the blocks in the chain")
 	fmt.Println(" searchblock -search block by hash")
 	fmt.Println(" send -from FROM -to TO -amount AMOUNT - Send amount of coins")
-	}
+	fmt.Println(" createwallet - Creates a new Wallet")
+	fmt.Println(" listaddresses - Lists the addresses in our wallet file")
+}
 
 func (cli *CommandLine) Run() {
 	optionsAll := make(map[string]Option)
@@ -45,14 +47,28 @@ func (cli *CommandLine) Run() {
 		Text:    "Search block by hash",
 		Handler: searchBlockByHash,
 	}
+	optionsAll["listaddresses"] = Option{
+		Text: "List Addresses",
+		Handler: func(string) {
+			listAddresses()
+		},
+	}
+	optionsAll["createwallet"] = Option{
+		Text: "Create Wallet",
+		Handler: func(string) {
+			createWallet()
+		},
+	}
 
 	action := os.Args[1]
 	getBalanceCmd := flag.NewFlagSet("getbalance", flag.ExitOnError)
 	printChainCmd := flag.NewFlagSet("printchain", flag.ExitOnError)
 	createBlockchainCmd := flag.NewFlagSet("createblockchain", flag.ExitOnError)
 	searchBlockCmd := flag.NewFlagSet("searchblock", flag.ExitOnError)
+	createWalletCmd := flag.NewFlagSet("createwallet", flag.ExitOnError)
+	listAddressesCmd := flag.NewFlagSet("listaddresses", flag.ExitOnError)
 
-	fmt.Println("RUN2")
+	//fmt.Println("RUN2")
 	getBalanceAddress := getBalanceCmd.String("address", "", "The address to get balance for")
 	createBlockchainAddress := createBlockchainCmd.String("address", "", "The address to send genesis block reward to")
 	blockHash := searchBlockCmd.String("hash", "", "The hash of the block to search for")
@@ -85,6 +101,16 @@ func (cli *CommandLine) Run() {
 		}
 	case "send":
 		err := sendCmd.Parse(os.Args[2:])
+		if err != nil {
+			log.Panic(err)
+		}
+	case "listaddresses":
+		err := listAddressesCmd.Parse(os.Args[2:])
+		if err != nil {
+			log.Panic(err)
+		}
+	case "createwallet":
+		err := createWalletCmd.Parse(os.Args[2:])
 		if err != nil {
 			log.Panic(err)
 		}
@@ -137,5 +163,33 @@ func (cli *CommandLine) Run() {
 			runtime.Goexit()
 		}
 		optionsAll[action].Handler(*blockHash)
+	}
+	if createWalletCmd.Parsed() {
+		optionsAll[action].Handler(action)
+	}
+	/*if listAddressesCmd.Parsed() {
+		//cli.listAddresses()
+		optionsAll[action].Handler(action)
+	}
+	if listAddressesCmd.Parsed() {
+		if handler, ok := optionsAll[action]; ok {
+			if handler.Handler != nil {
+				handler.Handler(action)
+			} else {
+				fmt.Println("Invalid action.")
+				runtime.Goexit()
+			}
+		} else {
+			fmt.Println("Invalid action.")
+			runtime.Goexit()
+		}
+	}*/
+	if listAddressesCmd.Parsed() {
+		if handler, ok := optionsAll[action]; ok {
+			handler.Handler(action)
+		} else {
+			fmt.Println("Invalid action.")
+			runtime.Goexit()
+		}
 	}
 }
