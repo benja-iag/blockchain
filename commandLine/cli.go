@@ -52,13 +52,13 @@ func (cli *CommandLine) Run() {
 	}
 	optionsAll["listaddresses"] = Option{
 		Text: "List Addresses",
-		Handler: func(string) {
+		Handler: func(...string) {
 			listAddresses()
 		},
 	}
 	optionsAll["createwallet"] = Option{
 		Text: "Create Wallet",
-		Handler: func(string) {
+		Handler: func(...string) {
 			createWallet()
 		},
 	}

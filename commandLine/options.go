@@ -4,7 +4,8 @@ import (
 	"blockchain1/blockchain"
 	"blockchain1/wallet"
 	"fmt"
-	"strconv
+	"strconv"
+)
 
 func createBlockChain(addresses ...string) {
 	address := addresses[0]
@@ -86,7 +87,6 @@ func searchBlockByHash(blockHashes ...string) {
 	}
 }
 
-  
 func listAddresses() {
 	wallets, _ := wallet.CreateWallets()
 	addresses := wallets.GetAllAddresses()
@@ -103,5 +103,3 @@ func createWallet() {
 
 	fmt.Printf("New address is: %s\n", address)
 }
-
-
