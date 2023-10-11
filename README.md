@@ -72,3 +72,16 @@ Entrega una dirección de wallet, diferente cada vez que se ejecuta. Se almacena
 ```$go run main.go listaddresses```
 
 Entrega el listado de direcciones creadas en el sistema.
+
+## Referencias y fuentes
+
+Log Rocket: https://blog.logrocket.com/build-blockchain-with-go/
+
+Golang company: https://www.golang.company/blog/build-a-blockchain-with-golang
+
+Tensor Programming: https://www.youtube.com/watch?v=mYlHT9bB6OE&list=PLJbE2Yu2zumC5QE39TQHBLYJDB2gfFE5Q
+
+FCC: https://www.freecodecamp.org/news/build-a-blockchain-in-golang-from-scratch/
+
+Anthony GG: https://www.youtube.com/watch?v=oCm46sUILcs&list=PL0xRBLFXXsP6-hxQmCDcl_BHJMm0mhxx7
+
