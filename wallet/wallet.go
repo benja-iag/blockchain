@@ -2,11 +2,9 @@ package wallet
 
 import (
 	"bytes"
-	"crypto/ecdsa"
-	"crypto/elliptic"
+	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/sha256"
-	"fmt"
 	"log"
 )
 
@@ -19,8 +17,8 @@ const (
 )
 
 type Wallet struct {
-	PrivateKey ecdsa.PrivateKey
-	PublicKey  []byte
+	PrivateKey ed25519.PrivateKey
+	PublicKey  ed25519.PublicKey
 }
 
 func (w *Wallet) Address() []byte {
@@ -29,9 +27,9 @@ func (w *Wallet) Address() []byte {
 	checkSum := Checksum(versionedHash)
 	fullHash := append(versionedHash, checkSum...)
 	address := Base58Encode(fullHash)
-	fmt.Printf("Pubkey: %x\n", w.PublicKey)
-	fmt.Printf("pub hash %x\n", pubHash)
-	fmt.Printf("address %x\n", address)
+	//	fmt.Printf("Pubkey: %x\n", w.PublicKey)
+	//	fmt.Printf("pub hash %x\n", pubHash)
+	//	fmt.Printf("address %x\n", address)
 	return address
 
 }
@@ -47,15 +45,15 @@ func ValidateAddress(address string) bool {
 
 }
 
-func NewKeyPair() (ecdsa.PrivateKey, []byte) {
+func NewKeyPair() (ed25519.PrivateKey, ed25519.PublicKey) {
 
-	curve := elliptic.P256()
-	private, err := ecdsa.GenerateKey(curve, rand.Reader)
+	public, private, err := ed25519.GenerateKey(rand.Reader)
+
 	if err != nil {
 		log.Panic(err)
 	}
-	public := append(private.PublicKey.X.Bytes(), private.PublicKey.Y.Bytes()...)
-	return *private, public
+
+	return private, public
 }
 func MakeWallet() *Wallet {
 	private, public := NewKeyPair()

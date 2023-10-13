@@ -91,6 +91,11 @@ func listAddresses() {
 	wallets, _ := wallet.CreateWallets()
 	addresses := wallets.GetAllAddresses()
 
+	if len(addresses) == 0 {
+		fmt.Println("No addresses in wallet")
+		return
+	}
+
 	for _, address := range addresses {
 		fmt.Println(address)
 	}
@@ -98,11 +103,10 @@ func listAddresses() {
 
 func createWallet() {
 	wallets, _ := wallet.CreateWallets()
-	fmt.Print("wallets ready")
+	fmt.Println("wallets ready")
 	address := wallets.AddWallet()
-	fmt.Print("wallets added")
+	fmt.Println("wallets added")
 	wallets.SaveFile()
-	fmt.Print("xd")
 
 	fmt.Printf("New address is: %s\n", address)
 }

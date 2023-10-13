@@ -2,9 +2,7 @@ package wallet
 
 import (
 	"bytes"
-	"crypto/elliptic"
 	"encoding/gob"
-	"fmt"
 	"log"
 	"os"
 )
@@ -35,7 +33,7 @@ func (ws *Wallets) GetAllAddresses() []string {
 }
 func (ws *Wallets) AddWallet() string {
 	wallet := MakeWallet()
-	address := fmt.Sprintf("Address Wallet: \n %s\n", wallet.Address())
+	address := string(wallet.Address())
 
 	ws.Wallets[address] = wallet
 	return address
@@ -43,7 +41,6 @@ func (ws *Wallets) AddWallet() string {
 
 func (ws *Wallets) SaveFile() {
 	var content bytes.Buffer
-	gob.Register(elliptic.P256())
 	encoder := gob.NewEncoder((&content))
 
 	err := encoder.Encode(ws)
@@ -68,7 +65,6 @@ func (ws *Wallets) LoadFile() error {
 		return err
 	}
 
-	gob.Register(elliptic.P256())
 	decoder := gob.NewDecoder(bytes.NewReader(fileContent))
 	err = decoder.Decode(&wallets)
 	if err != nil {

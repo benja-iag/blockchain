@@ -3,15 +3,12 @@ package blockchain
 import (
 	"blockchain1/wallet"
 	"bytes"
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
+	"crypto/ed25519"
 	"crypto/sha256"
 	"encoding/gob"
 	"encoding/hex"
 	"fmt"
 	"log"
-	"math/big"
 	"strings"
 )
 
@@ -115,7 +112,7 @@ func NewTransaction(from, to string, amount int, chain *Blockchain) *Transaction
 	return &tx
 }
 
-func (tx *Transaction) Sign(PrivateKey ecdsa.PrivateKey,
+func (tx *Transaction) Sign(PrivateKey ed25519.PrivateKey,
 	prevTXs map[string]Transaction) {
 	if tx.IsCoinbase() {
 		return
@@ -135,11 +132,7 @@ func (tx *Transaction) Sign(PrivateKey ecdsa.PrivateKey,
 		txCopy.ID = txCopy.Hash()
 		txCopy.Inputs[inId].PublicKey = nil
 
-		r, s, err := ecdsa.Sign(rand.Reader, &PrivateKey, txCopy.ID)
-		if err != nil {
-			log.Panic(err)
-		}
-		signature := append(r.Bytes(), s.Bytes()...)
+		signature := ed25519.Sign(PrivateKey, txCopy.ID)
 
 		tx.Inputs[inId].Signature = signature
 
@@ -175,7 +168,6 @@ func (tx *Transaction) Verify(prevTXs map[string]Transaction) bool {
 	}
 
 	txCopy := tx.TrimmedCopy()
-	curve := elliptic.P256()
 	for indId, in := range tx.Inputs {
 		prevTX := prevTXs[hex.EncodeToString(in.ID)]
 		txCopy.Inputs[indId].Signature = nil
@@ -183,20 +175,11 @@ func (tx *Transaction) Verify(prevTXs map[string]Transaction) bool {
 		txCopy.ID = txCopy.Hash()
 		txCopy.Inputs[indId].PublicKey = nil
 
-		r := big.Int{}
-		s := big.Int{}
-		sigLen := len(in.Signature)
-		r.SetBytes(in.Signature[:sigLen/2])
-		s.SetBytes(in.Signature[sigLen/2:])
+		signature := in.Signature
 
-		x := big.Int{}
-		y := big.Int{}
-		keyLen := len(in.PublicKey)
-		x.SetBytes(in.PublicKey[:keyLen/2])
-		y.SetBytes(in.PublicKey[keyLen/2:])
+		publicKey := in.PublicKey
 
-		rawPubKey := ecdsa.PublicKey{Curve: curve, X: &x, Y: &y}
-		if ecdsa.Verify(&rawPubKey, txCopy.ID, &r, &s) == false {
+		if ed25519.Verify(publicKey, txCopy.ID, signature) == false {
 			return false
 		}
 	}
