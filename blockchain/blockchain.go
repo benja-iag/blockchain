@@ -2,7 +2,7 @@ package blockchain
 
 import (
 	"bytes"
-	"crypto/ecdsa"
+	"crypto/ed25519"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -33,7 +33,6 @@ type BlockchainIterator struct {
 
 func DBexists() bool {
 	if _, err := os.Stat(dbFile); os.IsNotExist(err) {
-		fmt.Println("DBexists: No existing blockchain found, create one!")
 		return false
 	}
 	return true
@@ -225,7 +224,7 @@ func (bc *Blockchain) FinTransaction(ID []byte) (Transaction, error) {
 	return Transaction{}, errors.New("Transaction is not found")
 }
 
-func (bc *Blockchain) SignTransaction(tx *Transaction, privateKey ecdsa.PrivateKey) {
+func (bc *Blockchain) SignTransaction(tx *Transaction, privateKey ed25519.PrivateKey) {
 	prevTxs := make(map[string]Transaction)
 
 	for _, in := range tx.Inputs {
