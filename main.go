@@ -151,6 +151,7 @@ import (
 func main() {
 
 	defer os.Exit(0)
-	cli := commandLine.CommandLine{}
-	cli.Run()
+	//	cli := commandLine.CommandLine{}
+	//	cli.Run()
+	commandLine.Execute()
 }

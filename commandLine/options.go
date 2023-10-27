@@ -5,18 +5,26 @@ import (
 	"blockchain1/wallet"
 	"fmt"
 	"strconv"
+
+	"github.com/spf13/cobra"
 )
 
-func createBlockChain(addresses ...string) {
-	address := addresses[0]
+var (
+	sendFrom string = ""
+	sendTo   string = ""
+	amount   int    = 0
+)
+
+func createBlockChain(cmd *cobra.Command, args []string) {
+	address := args[0]
 
 	chains := blockchain.InitBlockChain(address)
 	defer chains.Database.Close()
 	fmt.Println("Blockchain Created")
 }
 
-func getBalance(addresses ...string) {
-	publicKeyHash := addresses[0]
+func getBalance(cmd *cobra.Command, args []string) {
+	publicKeyHash := args[0]
 	chain := blockchain.ContinueBlockChain(publicKeyHash)
 	defer chain.Database.Close()
 
@@ -30,7 +38,7 @@ func getBalance(addresses ...string) {
 	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
 }
 
-func printChain() {
+func printChain(cmd *cobra.Command, args []string) {
 	chains := blockchain.ContinueBlockChain("")
 	defer chains.Database.Close()
 	iter := chains.Iterator()
@@ -50,25 +58,23 @@ func printChain() {
 	}
 }
 
-func send(vals ...string) {
-	from, to := vals[0], vals[1]
+func send(cmd *cobra.Command, args []string) {
 
-	amount, err := strconv.Atoi(vals[2])
+	chains := blockchain.ContinueBlockChain(sendFrom)
+	defer chains.Database.Close()
 
-	if err != nil {
+	if amount <= 0 {
+		fmt.Println("Amount must be greater than 0")
 		return
 	}
 
-	chains := blockchain.ContinueBlockChain(from)
-	defer chains.Database.Close()
-
-	tx := blockchain.NewTransaction(from, to, amount, chains)
+	tx := blockchain.NewTransaction(sendFrom, sendTo, amount, chains)
 	chains.AddBlock([]*blockchain.Transaction{tx})
 	fmt.Println("Success sending coins")
 }
 
-func searchBlockByHash(blockHashes ...string) {
-	blockHash := blockHashes[0]
+func searchBlockByHash(cmd *cobra.Command, args []string) {
+	blockHash := args[0]
 	chain := blockchain.ContinueBlockChain("")
 	defer chain.Database.Close()
 
@@ -87,7 +93,7 @@ func searchBlockByHash(blockHashes ...string) {
 	}
 }
 
-func listAddresses() {
+func listAddresses(cmd *cobra.Command, args []string) {
 	wallets, _ := wallet.CreateWallets()
 	addresses := wallets.GetAllAddresses()
 
@@ -101,7 +107,7 @@ func listAddresses() {
 	}
 }
 
-func createWallet() {
+func createWallet(cmd *cobra.Command, args []string) {
 	wallets, _ := wallet.CreateWallets()
 	fmt.Println("wallets ready")
 	address := wallets.AddWallet()

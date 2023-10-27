@@ -1,5 +1,6 @@
 package commandLine
 
+/*
 import (
 	"flag"
 	"fmt"
@@ -131,7 +132,7 @@ func (cli *CommandLine) Run() {
 	/*err := createBlockchainCmd.Parse(os.Args[2:])
 	if err != nil {
 		log.Panic(err)
-	}*/
+	}
 
 	if createBlockchainCmd.Parsed() {
 		if *createBlockchainAddress == "" {
@@ -191,7 +192,7 @@ func (cli *CommandLine) Run() {
 			fmt.Println("Invalid action.")
 			runtime.Goexit()
 		}
-	}*/
+	}
 	if listAddressesCmd.Parsed() {
 		if handler, ok := optionsAll[action]; ok {
 			handler.Handler(action)
@@ -200,4 +201,4 @@ func (cli *CommandLine) Run() {
 			runtime.Goexit()
 		}
 	}
-}
+}*/
