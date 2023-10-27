@@ -1,3 +1,4 @@
 tmp/*
 oryxBuildBinary
-main.exe
+blockchain.exe
+.completion.*
