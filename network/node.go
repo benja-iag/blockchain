@@ -53,7 +53,7 @@ func printNodeAddress(node host.Host) {
 	println(fmt.Sprintf("Multiaddresses: %s", strings.Join(addressesString, ",")))
 
 }
-func main() {
+func connectNode() {
 	sourceNode := createSourceNode()
 	println("-- SOURCE NODE INFO --")
 	printNodeID(sourceNode)
