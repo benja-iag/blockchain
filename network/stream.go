@@ -1,4 +1,4 @@
-package main
+package network
 
 import (
 	"bufio"
@@ -73,7 +73,7 @@ func runSourceNode(targetNodeInfo peer.AddrInfo) {
 	}
 }
 
-func main() {
+func streamNodes() {
 	ctx, _ := context.WithCancel(context.Background())
 
 	info := runTargetNode()
