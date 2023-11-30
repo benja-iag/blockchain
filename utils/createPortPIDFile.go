@@ -7,12 +7,12 @@ import (
 )
 
 type PortPID struct {
-	Port int `json:"port"`
-	PID  int `json:"pid"`
+	Port      int  `json:"port"`
+	PID       int  `json:"pid"`
+	Publisher bool `json:"publisher"`
 }
 
-func CreatePortPIDFile(port, pid int) error {
-	// Check if the file 'port.pid' already exists.
+func CreatePortPIDFile(port, pid int, publisher bool) error {
 	if _, err := os.Stat("port.pid"); err == nil {
 		fmt.Println("The file 'port.pid' already exists.")
 		return nil
@@ -25,8 +25,9 @@ func CreatePortPIDFile(port, pid int) error {
 	defer file.Close()
 
 	data := PortPID{
-		Port: port,
-		PID:  pid,
+		Port:      port,
+		PID:       pid,
+		Publisher: publisher,
 	}
 
 	jsonData, err := json.MarshalIndent(data, "", "    ")
