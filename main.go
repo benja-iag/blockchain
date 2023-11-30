@@ -169,23 +169,23 @@ func main() {
 		fmt.Println("La estructura nodeInfo es nula debido a la falta del archivo 'port.pid'.")
 	}*/
 
-	//Para probar función createPortPIDFile
-	/*port := 3001
+	//Usage of the createPortPIDFile function
+	/* port := 3001
 	pid := 999
 
 	err := utils.CreatePortPIDFile(port, pid)
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		fmt.Println("Archivo 'port.pid' creado exitosamente.")
-	}*/
+		fmt.Println("File 'port.pid' created successfully.")
+	} */
 
-	//Para probar función searchNodeInfo
+	//Usage of the searchNodeInfo function
 	info := utils.GetNodeInfo()
 	if info != nil {
 		jsonData, err := json.MarshalIndent(info, "", "    ")
 		if err != nil {
-			fmt.Println("Error al convertir a JSON:", err)
+			fmt.Println("Error converting to JSON.", err)
 			return
 		}
 		fmt.Println("Node Information (JSON):")
