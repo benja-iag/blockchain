@@ -1,8 +1,8 @@
 # Proyecto de Blockchain
 
-Fecha: 10-10-2023
+Fecha: 29-11-2023
 
-Versión: 1.0
+Versión: 2.0
 
 ----
 
@@ -39,19 +39,19 @@ El archivo establece dos llaves: Pública y Privada. La Privada es única y se u
 
 Para inicializar el sistema, se ejecuta el siguiente comando:
 
-```$ go run main.go createblockchain -address "<DIRECCION>"```
+```$ go run main.go createblockchain "<DIRECCION>"```
 
 Se reemplaza `<DIRECCION>` por la dirección que se desea definir (Se recomienda el nombre del usuario). La cadena se inicializa con una recompensa de 100 unidades para el usuario de dicha dirección.
 
 ### getbalance
 
-```$ go run main.go getbalance -address "<DIRECCION>"```
+```$ go run main.go getbalance "<DIRECCION>"```
 
 Se reemplaza `<DIRECCION>` por la dirección del usuario sobre el cual se desea conocer la cantidad de unidades del usuario asociado a la dirección proveída.
 
 ### send
 
-```$ go run main.go send -from "<DIRECCION_1>" -to "<DIRECCION_2>" -amount <CANTIDAD>```
+```$ go run main.go send -f "<DIRECCION_1>" -t "<DIRECCION_2>" -a <CANTIDAD>```
 
 Se reemplaza `<DIRECCION_1>` por la dirección desde la que se desea enviar unidades. Se reemplaza `<DIRECCION_2>` por la dirección hacia la que se desea recibir unidades. Se reemplaza `<CANTIDAD>` por el total de unidades que se desea transferir.
 
