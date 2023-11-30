@@ -1,6 +1,6 @@
 package utils
 
-import (
+/*import (
 	"fmt"
 	"os"
 	"strings"
@@ -36,7 +36,7 @@ type nodeInfo struct {
 		}
 	}*/
 
-func GetNodeInfo() *nodeInfo {
+/*func GetNodeInfo() *nodeInfo {
 	filename := "port.pid"
 	_, err := os.Stat(filename)
 	if os.IsNotExist(err) {
@@ -63,6 +63,42 @@ func GetNodeInfo() *nodeInfo {
 		Port: strings.TrimSpace(lines[0]),
 		PID:  strings.TrimSpace(lines[1]),
 	}
+}*/
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+)
+
+type nodeInfo struct {
+	Port int `json:"port"`
+	PID  int `json:"pid"`
 }
 
+func GetNodeInfo() *nodeInfo {
+	filename := "port.pid"
+	_, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		fmt.Println("El archivo 'port.pid' no existe.")
+		return nil
+	} else if err != nil {
+		fmt.Println("Error al verificar el archivo 'port.pid':", err)
+		return nil
+	}
 
+	fileData, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Println("Error al leer el archivo 'port.pid':", err)
+		return nil
+	}
+
+	var data nodeInfo
+	err = json.Unmarshal(fileData, &data)
+	if err != nil {
+		fmt.Println("Error al decodificar el archivo 'port.pid' como JSON:", err)
+		return nil
+	}
+
+	return &data
+}

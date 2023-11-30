@@ -144,7 +144,11 @@ func (cli *CommandLine) createBlockChain(address string) {
 	}
 */
 import (
-	"blockchain1/commandLine"
+	//"blockchain1/commandLine"
+	"blockchain1/utils"
+	"encoding/json"
+	"fmt"
+
 	"os"
 )
 
@@ -153,5 +157,41 @@ func main() {
 	defer os.Exit(0)
 	//	cli := commandLine.CommandLine{}
 	//	cli.Run()
-	commandLine.Execute()
+	//commandLine.Execute()
+
+	/*err := utils.CreatePortPIDFile(3001, 999)
+	fmt.Print(err)
+
+	/*NodeInfo := utils.GetNodeInfo()
+	if NodeInfo != nil {
+		fmt.Printf("Port: %s, PID: %s\n", NodeInfo.Port, NodeInfo.PID)
+	} else {
+		fmt.Println("La estructura nodeInfo es nula debido a la falta del archivo 'port.pid'.")
+	}*/
+
+	//Para probar función createPortPIDFile
+	/*port := 3001
+	pid := 999
+
+	err := utils.CreatePortPIDFile(port, pid)
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Println("Archivo 'port.pid' creado exitosamente.")
+	}*/
+
+	//Para probar función searchNodeInfo
+	info := utils.GetNodeInfo()
+	if info != nil {
+		jsonData, err := json.MarshalIndent(info, "", "    ")
+		if err != nil {
+			fmt.Println("Error al convertir a JSON:", err)
+			return
+		}
+		fmt.Println("Node Information (JSON):")
+		fmt.Println(string(jsonData))
+	} else {
+		fmt.Println("Node information is nil.")
+	}
+
 }
