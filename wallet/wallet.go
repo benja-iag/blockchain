@@ -34,7 +34,7 @@ func (w *Wallet) Address() []byte {
 
 }
 func ValidateAddress(address string) bool {
-	publicKeyHash := Base56Decode([]byte(address))
+	publicKeyHash := Base58Decode([]byte(address))
 	actualCheckSum := publicKeyHash[len(publicKeyHash)-checkSumLength:]
 	version := publicKeyHash[0]
 

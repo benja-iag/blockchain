@@ -20,16 +20,32 @@ func createBlockChain(cmd *cobra.Command, args []string) {
 
 	chains := blockchain.InitBlockChain(address)
 	defer chains.Database.Close()
+
+	UTXOSet := blockchain.UTXOSet{Blockchain: chains}
+	UTXOSet.Reindex()
 	fmt.Println("Blockchain Created")
+}
+
+func reindexUTXO(cmd *cobra.Command, args []string) {
+	chains := blockchain.ContinueBlockChain()
+	defer chains.Database.Close()
+
+	UTXOSet := blockchain.UTXOSet{Blockchain: chains}
+	UTXOSet.Reindex()
+
+	count := UTXOSet.CountTransactions()
+
+	fmt.Printf("Done! There are %d transactions in the UTXO set.\n", count)
 }
 
 func getBalance(cmd *cobra.Command, args []string) {
 	publicKeyHash := args[0]
 	chain := blockchain.ContinueBlockChain()
+	UTXOSet := blockchain.UTXOSet{Blockchain: chain}
 	defer chain.Database.Close()
 
 	balance := 0
-	UTXOs := chain.FindUTXO([]byte(publicKeyHash))
+	UTXOs := UTXOSet.FindUTXO([]byte(publicKeyHash))
 
 	for _, out := range UTXOs {
 		balance += out.Value
@@ -68,7 +84,9 @@ func send(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	tx := blockchain.NewTransaction(sendFrom, sendTo, amount, chains)
+	UTXO := blockchain.UTXOSet{Blockchain: chains}
+
+	tx := blockchain.NewTransaction(sendFrom, sendTo, amount, &UTXO)
 	chains.AddBlock([]*blockchain.Transaction{tx})
 	fmt.Println("Success sending coins")
 }

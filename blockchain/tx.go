@@ -3,40 +3,69 @@ package blockchain
 import (
 	"blockchain1/wallet"
 	"bytes"
+	"encoding/gob"
+	"log"
 )
 
 type TxOutput struct {
-	Value         int
-	PublicKeyHash []byte
+	Value      int
+	PubKeyHash []byte
+}
+
+type TxOutputs struct {
+	Outputs []TxOutput
 }
 
 type TxInput struct {
 	ID        []byte
 	Out       int
 	Signature []byte
-	PublicKey []byte
+	PubKey    []byte
 }
 
-func NewTxOutput(value int, address string) *TxOutput {
+func (in *TxInput) UsesKey(pubKeyHash []byte) bool {
+	lockingHash := wallet.PublicKeyHash(in.PubKey)
+
+	return bytes.Compare(lockingHash, pubKeyHash) == 0
+}
+
+func (out *TxOutput) Lock(address []byte) {
+	pubKeyHash := wallet.Base58Decode(address)
+	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-4]
+	out.PubKeyHash = pubKeyHash
+}
+
+func (out *TxOutput) IsLockedWithKey(pubKeyHash []byte) bool {
+	return bytes.Compare(out.PubKeyHash, pubKeyHash) == 0
+}
+
+func NewTXOutput(value int, address string) *TxOutput {
 	txo := &TxOutput{value, nil}
 	txo.Lock([]byte(address))
 
 	return txo
 }
 
-func (in *TxInput) UsesKey(publicKeyHash []byte) bool {
-	lockingHash := wallet.PublicKeyHash(in.PublicKey)
+func (outs TxOutputs) Serialize() []byte {
+	var buffer bytes.Buffer
 
-	return bytes.Equal(lockingHash, publicKeyHash)
+	encode := gob.NewEncoder(&buffer)
+	err := encode.Encode(outs)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	return buffer.Bytes()
 }
-func (out *TxOutput) Lock(address []byte) {
-	publicKeyHash := wallet.Base56Decode(address)
-	publicKeyHash = publicKeyHash[1 : len(publicKeyHash)-4]
 
-	out.PublicKeyHash = publicKeyHash
-}
+func DeserializeOutputs(data []byte) TxOutputs {
+	var outputs TxOutputs
 
-func (out *TxOutput) IsLockedWithKey(publicKeyHash []byte) bool {
+	decode := gob.NewDecoder(bytes.NewReader(data))
+	err := decode.Decode(&outputs)
+	if err != nil {
+		log.Panic(err)
+	}
 
-	return bytes.Equal(out.PublicKeyHash, publicKeyHash)
+	return outputs
 }

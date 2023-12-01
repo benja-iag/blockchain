@@ -1,5 +1,5 @@
 tmp/*
 oryxBuildBinary
-blockchain.exe
+*.exe
 .completion.*
 port.pid
