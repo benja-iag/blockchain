@@ -64,7 +64,7 @@ func InitBlockChain(address string) *Blockchain {
 	return &Blockchain{lasthash, db}
 }
 
-func ContinueBlockChain(address string) *Blockchain {
+func ContinueBlockChain() *Blockchain {
 	if DBexists() == false {
 		fmt.Println("ContinueBlockChain: No existing blockchain found, create one!")
 		runtime.Goexit()

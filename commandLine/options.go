@@ -25,7 +25,7 @@ func createBlockChain(cmd *cobra.Command, args []string) {
 
 func getBalance(cmd *cobra.Command, args []string) {
 	publicKeyHash := args[0]
-	chain := blockchain.ContinueBlockChain(publicKeyHash)
+	chain := blockchain.ContinueBlockChain()
 	defer chain.Database.Close()
 
 	balance := 0
@@ -39,7 +39,7 @@ func getBalance(cmd *cobra.Command, args []string) {
 }
 
 func printChain(cmd *cobra.Command, args []string) {
-	chains := blockchain.ContinueBlockChain("")
+	chains := blockchain.ContinueBlockChain()
 	defer chains.Database.Close()
 	iter := chains.Iterator()
 
@@ -60,7 +60,7 @@ func printChain(cmd *cobra.Command, args []string) {
 
 func send(cmd *cobra.Command, args []string) {
 
-	chains := blockchain.ContinueBlockChain(sendFrom)
+	chains := blockchain.ContinueBlockChain()
 	defer chains.Database.Close()
 
 	if amount <= 0 {
@@ -75,7 +75,7 @@ func send(cmd *cobra.Command, args []string) {
 
 func searchBlockByHash(cmd *cobra.Command, args []string) {
 	blockHash := args[0]
-	chain := blockchain.ContinueBlockChain("")
+	chain := blockchain.ContinueBlockChain()
 	defer chain.Database.Close()
 
 	iter := chain.Iterator()

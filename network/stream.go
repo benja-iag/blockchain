@@ -1,6 +1,7 @@
 package network
 
 import (
+	"blockchain1/blockchain"
 	"bufio"
 	"fmt"
 	"log"
@@ -36,7 +37,12 @@ func ReadData(rw *bufio.ReadWriter) {
 func WriteData(rw *bufio.ReadWriter) {
 	for {
 
-		time.Sleep(5 * time.Second)
+		time.Sleep(10 * time.Second)
+		if !blockchain.DBexists() {
+			fmt.Println("InitBlockChain: Blockchain does not exist.")
+			continue
+		}
+
 		str := "Hello from Launchpad!\n"
 		log.Printf("Writing data: %s", str)
 

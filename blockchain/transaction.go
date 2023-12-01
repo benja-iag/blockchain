@@ -79,7 +79,11 @@ func NewTransaction(from, to string, amount int, chain *Blockchain) *Transaction
 	if err != nil {
 		log.Panic(err)
 	}
-	w := wallets.GetWallet(from)
+	w, err := wallets.GetWallet(from)
+	if err != nil {
+		log.Panic(err)
+	}
+
 	publicKeyHash := wallet.PublicKeyHash(w.PublicKey)
 
 	acc, validOutputs := chain.FindSpendableOutputs(publicKeyHash, amount)
