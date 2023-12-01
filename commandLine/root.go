@@ -42,6 +42,13 @@ func init() {
 		Run:   createBlockChain,
 	}
 
+	var cmdReindexUTXO = &cobra.Command{
+		Use:   "reindexutxo",
+		Short: "Rebuilds the UTXO set",
+		Args:  cobra.ExactArgs(0),
+		Run:   reindexUTXO,
+	}
+
 	var cmdPrintChain = &cobra.Command{
 		Use:   "printchain",
 		Short: "Print the current chain",
@@ -85,6 +92,7 @@ func init() {
 	cmdSend.MarkFlagRequired("amount")
 
 	rootCmd.AddCommand(cmdGetBalance)
+	rootCmd.AddCommand(cmdReindexUTXO)
 	rootCmd.AddCommand(cmdCreateBlockchain)
 	rootCmd.AddCommand(cmdPrintChain)
 	rootCmd.AddCommand(cmdSearchBlock)

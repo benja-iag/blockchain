@@ -1,5 +1,5 @@
 OBJ = main.go
-TARGET = blockchain.exe
+TARGET = main.exe
 
 all: build
 
