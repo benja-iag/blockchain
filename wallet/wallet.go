@@ -27,14 +27,14 @@ func (w *Wallet) Address() []byte {
 	checkSum := Checksum(versionedHash)
 	fullHash := append(versionedHash, checkSum...)
 	address := Base58Encode(fullHash)
-	//	fmt.Printf("Pubkey: %x\n", w.PublicKey)
-	//	fmt.Printf("pub hash %x\n", pubHash)
-	//	fmt.Printf("address %x\n", address)
 	return address
 
 }
 func ValidateAddress(address string) bool {
 	publicKeyHash := Base58Decode([]byte(address))
+	if len(publicKeyHash) < checkSumLength {
+		return false
+	}
 	actualCheckSum := publicKeyHash[len(publicKeyHash)-checkSumLength:]
 	version := publicKeyHash[0]
 

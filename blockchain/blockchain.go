@@ -38,17 +38,17 @@ func DBexists() bool {
 	return true
 }
 
-func InitBlockChain(address string) *Blockchain {
+func InitBlockChain(address string) (*Blockchain, error) {
 	var lasthash []byte
 
 	if DBexists() {
 		fmt.Println("InitBlockChain: Blockchain already exists.")
-		runtime.Goexit()
+		return nil, errors.New("Blockchain already exists")
 	}
 
 	db, err := database.NewLevelDB(dbPath)
 	if err != nil {
-		log.Panic(err)
+		return nil, err
 	}
 
 	cbtx := CoinbaseTx(address, genesisData)
@@ -56,12 +56,15 @@ func InitBlockChain(address string) *Blockchain {
 	fmt.Println("InitBlockChain: Genesis Created")
 	err = db.Put(genesis.Hash, genesis.Serialize())
 	if err != nil {
-		log.Panic(err)
+		return nil, err
 	}
 	err = db.Put([]byte("lh"), genesis.Hash)
+	if err != nil {
+		return nil, err
+	}
 	lasthash = genesis.Hash
 
-	return &Blockchain{lasthash, db}
+	return &Blockchain{lasthash, db}, nil
 }
 
 func ContinueBlockChain() *Blockchain {
