@@ -53,7 +53,7 @@ func CoinbaseTx(to, data string) *Transaction {
 		data = fmt.Sprintf("%x", randData)
 	}
 
-	txin := TxInput{[]byte{}, -1, nil, []byte(data)}
+	txin := TxInput{[]byte{}, 100, nil, []byte(data)}
 	txout := NewTXOutput(100, to)
 
 	tx := Transaction{nil, []TxInput{txin}, []TxOutput{*txout}}
@@ -68,6 +68,7 @@ func NewTransaction(from, to string, amount int, UTXO *UTXOSet) *Transaction {
 
 	wallets, err := wallet.CreateWallets()
 	if err != nil {
+		log.Default().Printf("Error on create wallets:\n")
 		log.Panic(err)
 	}
 	w, err := wallets.GetWallet(from)
@@ -76,8 +77,7 @@ func NewTransaction(from, to string, amount int, UTXO *UTXOSet) *Transaction {
 		log.Panic(err)
 	}
 
-	pubKeyHash := wallet.PublicKeyHash(w.PublicKey)
-	acc, validOutputs := UTXO.FindSpendableOutputs(pubKeyHash, amount)
+	acc, validOutputs := UTXO.FindSpendableOutputs([]byte(from), amount)
 
 	if acc < amount {
 		log.Panic("Error: not enough funds")
@@ -90,7 +90,7 @@ func NewTransaction(from, to string, amount int, UTXO *UTXOSet) *Transaction {
 		}
 
 		for _, out := range outs {
-			input := TxInput{txID, out, nil, w.PublicKey}
+			input := TxInput{txID, out, nil, []byte(from)}
 			inputs = append(inputs, input)
 		}
 	}
