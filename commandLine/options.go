@@ -4,6 +4,7 @@ import (
 	"blockchain1/blockchain"
 	"blockchain1/wallet"
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -17,8 +18,16 @@ var (
 
 func createBlockChain(cmd *cobra.Command, args []string) {
 	address := args[0]
-
-	chains := blockchain.InitBlockChain(address)
+	log.Default().Printf("Address to send genesis block reward to: %s\n", address)
+	if !wallet.ValidateAddress(address) {
+		fmt.Println("Address is not valid, please create a wallet and use his address as parameter for this command")
+		return
+	}
+	chains, err := blockchain.InitBlockChain(address)
+	if err != nil {
+		fmt.Println("Error creating blockchain, please check if blockchain already exists")
+		return
+	}
 	defer chains.Database.Close()
 
 	UTXOSet := blockchain.UTXOSet{Blockchain: chains}
@@ -58,12 +67,26 @@ func printChain(cmd *cobra.Command, args []string) {
 	chains := blockchain.ContinueBlockChain()
 	defer chains.Database.Close()
 	iter := chains.Iterator()
+	tabs := "\t"
 
+	listAddresses(cmd, args)
 	for {
 		block := iter.Next()
 
 		fmt.Printf("Previous hash: %x\n", block.PreviousHash)
 		fmt.Printf("Hash: %x\n", block.Hash)
+		tabs = "\t"
+		for _, tx := range block.Transactions {
+			fmt.Printf("%sTransaction: %x\n", tabs, tx.ID)
+			fmt.Printf("%sOutput Information:\n", tabs)
+			tabs := "\t\t"
+			for _, out := range tx.Outputs {
+				fmt.Printf("%sOutput Value: %#v \n", tabs, out.Value)
+				keyDecoded := wallet.Base58Decode(out.PubKeyHash)
+				fmt.Printf("%sOutput address: %s\n", tabs, string(keyDecoded))
+
+			}
+		}
 		pow := blockchain.NewProof(block)
 		fmt.Printf("PoW: %s\n", strconv.FormatBool(pow.Validate()))
 		fmt.Println()
@@ -120,9 +143,11 @@ func listAddresses(cmd *cobra.Command, args []string) {
 		return
 	}
 
+	fmt.Println("All addresses in wallet:")
 	for _, address := range addresses {
 		fmt.Println(address)
 	}
+	fmt.Printf("-------------------------\n")
 }
 
 func createWallet(cmd *cobra.Command, args []string) {
