@@ -6,9 +6,6 @@ all: build
 build:
 	go build -o $(TARGET) $(OBJ)
 
-createbc: build
-	./$(TARGET) createblockchain -address "1JvKq46JWJzjK4dLJ1rAg8YBouaPoNzgX"
-
 clean:
 	$(RM) -rf tmp $(TARGET) .completion.*
 
@@ -18,3 +15,8 @@ completion: build
 	./$(TARGET) completion fish > .completion.fish
 	./$(TARGET) completion powershell > .completion.ps1
 	echo "Use 'source .completion.<YOUR SHELL>' to load completions"
+
+delete:
+	rm -rf ./tmp/blocks
+print:
+	go run $(OBJ) printchain
