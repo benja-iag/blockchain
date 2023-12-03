@@ -26,26 +26,26 @@ type TxInput struct {
 func (in *TxInput) UsesKey(pubKeyHash []byte) bool {
 	lockingHash := wallet.PublicKeyHash(in.PubKey)
 
-	return bytes.Compare(lockingHash, pubKeyHash) == 0
+	return bytes.Equal(lockingHash, pubKeyHash)
 }
 
 func (out *TxOutput) Lock(address []byte) {
-	pubKeyHash := wallet.Base58Decode(address)
-	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-4]
+	pubKeyHash := wallet.Base58Encode(address)
 	out.PubKeyHash = pubKeyHash
 }
 
 func (out *TxOutput) IsLockedWithKey(pubKeyHash []byte) bool {
-	return bytes.Compare(out.PubKeyHash, pubKeyHash) == 0
+	keyDecode := wallet.Base58Decode(out.PubKeyHash)
+	return bytes.Equal(keyDecode, pubKeyHash)
 }
 
 func NewTXOutput(value int, address string) *TxOutput {
 	txo := &TxOutput{value, nil}
 	txo.Lock([]byte(address))
-
 	return txo
 }
 
+// convert TxOutputs to []byte
 func (outs TxOutputs) Serialize() []byte {
 	var buffer bytes.Buffer
 
