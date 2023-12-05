@@ -4,6 +4,8 @@ Fecha: 29-11-2023
 
 Versión: 2.0
 
+Trello [here:](https://trello.com/invite/b/6WKRprW0/ATTI7361f964a6ed79459b46af15b121fc76E1CC819F/blockchain).
+
 ----
 
 ## Descripción del proyecto
