@@ -11,7 +11,7 @@ func Base58Encode(input []byte) []byte {
 	return []byte(encode)
 }
 
-func Base56Decode(input []byte) []byte {
+func Base58Decode(input []byte) []byte {
 	decode, err := base58.Decode(string(input[:]))
 	if err != nil {
 		log.Panic(err)

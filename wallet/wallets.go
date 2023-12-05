@@ -3,6 +3,8 @@ package wallet
 import (
 	"bytes"
 	"encoding/gob"
+	"errors"
+	"fmt"
 	"log"
 	"os"
 )
@@ -20,8 +22,12 @@ func CreateWallets() (*Wallets, error) {
 	err := wallets.LoadFile()
 	return &wallets, err
 }
-func (ws Wallets) GetWallet(address string) Wallet {
-	return *ws.Wallets[address]
+func (ws Wallets) GetWallet(address string) (*Wallet, error) {
+	if ws.Wallets[address] == nil {
+		err := fmt.Sprintf("Wallet: not found \n\tActual address: %s", address)
+		return nil, errors.New(err)
+	}
+	return ws.Wallets[address], nil
 }
 func (ws *Wallets) GetAllAddresses() []string {
 	var addresses []string

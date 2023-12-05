@@ -8,6 +8,14 @@ type LevelDB struct {
 	db *leveldb.DB
 }
 
+type LevelDBIterator interface {
+	First() bool
+	Next() bool
+	Last() bool
+	Seek(key []byte) bool
+	Prev() bool
+}
+
 func NewLevelDB(path string) (DB, error) {
 	leveldb, err := leveldb.OpenFile(path, nil)
 	if err != nil {
@@ -30,4 +38,8 @@ func (db *LevelDB) Delete(key []byte) error {
 
 func (db *LevelDB) Close() error {
 	return db.db.Close()
+}
+
+func (db *LevelDB) Iterator() Iterator {
+	return db.db.NewIterator(nil, nil)
 }
