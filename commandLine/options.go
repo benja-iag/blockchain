@@ -2,8 +2,11 @@ package commandLine
 
 import (
 	"blockchain1/blockchain"
+	"blockchain1/network"
+	"blockchain1/utils"
 	"blockchain1/wallet"
 	"fmt"
+	//"go/format"
 	"log"
 	"os"
 	"os/exec"
@@ -228,6 +231,7 @@ func createWallet(cmd *cobra.Command, args []string) {
 	fmt.Printf("New address is: %s\n", address)
 }
 
+<<<<<<< HEAD
 func isNodeRunning() bool {
 	fs, err := os.Stat("port.pid")
 
@@ -247,3 +251,42 @@ func getData(cmd *cobra.Command, args []string) {
 
 	chains.GetData()
 }
+=======
+/*func createPublisher(cmd *cobra.Command, args []string) {
+	nodeInfo := utils.GetNodeInfo()
+	if nodeInfo == nil {
+		fmt.Println("'port.pid' file already exists, cannot create a publisher")
+
+	} else {
+		fmt.Println("port.pid file exists, proceeding to start publisher node.")
+		network.P2p(true) 
+	}
+}
+
+func createSubscriber(cmd *cobra.Command, args []string) {
+	fmt.Println("Starting subscriber node...")
+	network.P2p(false) 
+}*/
+
+func createPublisher(cmd *cobra.Command, args []string) {
+	for {
+		nodeInfo := utils.GetNodeInfo()
+			if nodeInfo == nil {
+				fmt.Println("'port.pid' file already exists, cannot create a publisher")
+			} else {
+				fmt.Println("port.pid file exists, proceeding to start publisher node.")
+				network.P2p(true) 
+		}
+	}
+	
+}
+
+func createSubscriber(cmd *cobra.Command, args []string) {
+	fmt.Println("Starting subscriber node...")
+	for {
+		
+		network.P2p(false)	
+	}
+	 
+}
+>>>>>>> 27be831 (Implement createSubscriber and createPublisher commands)
