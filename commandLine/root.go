@@ -36,7 +36,7 @@ func init() {
 	}
 	var cmdCreatePublisher = &cobra.Command{
 		Use:   "createpublisher",
-		Short: "Starts a new publisher node",
+		Short: "Starts a new publish node",
 		Args:  cobra.ExactArgs(0),
 		Run:   createPublisher,
 	}
