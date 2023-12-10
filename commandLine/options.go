@@ -232,6 +232,7 @@ func createWallet(cmd *cobra.Command, args []string) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 func isNodeRunning() bool {
 	fs, err := os.Stat("port.pid")
 
@@ -253,6 +254,9 @@ func getData(cmd *cobra.Command, args []string) {
 }
 =======
 /*func createPublisher(cmd *cobra.Command, args []string) {
+=======
+func createPublisher(cmd *cobra.Command, args []string) {
+>>>>>>> 4bcb699 (Comment correction in function createPublisher and createSubscriber)
 	nodeInfo := utils.GetNodeInfo()
 	if nodeInfo == nil {
 		fmt.Println("'port.pid' file already exists, cannot create a publisher")
@@ -266,6 +270,7 @@ func getData(cmd *cobra.Command, args []string) {
 func createSubscriber(cmd *cobra.Command, args []string) {
 	fmt.Println("Starting subscriber node...")
 	network.P2p(false) 
+<<<<<<< HEAD
 }*/
 
 func createPublisher(cmd *cobra.Command, args []string) {
@@ -290,3 +295,6 @@ func createSubscriber(cmd *cobra.Command, args []string) {
 	 
 }
 >>>>>>> 27be831 (Implement createSubscriber and createPublisher commands)
+=======
+}
+>>>>>>> 4bcb699 (Comment correction in function createPublisher and createSubscriber)
