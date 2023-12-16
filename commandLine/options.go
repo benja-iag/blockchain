@@ -47,22 +47,6 @@ func reindexUTXO(cmd *cobra.Command, args []string) {
 	fmt.Printf("Done! There are %d transactions in the UTXO set.\n", count)
 }
 
-func getBalance(cmd *cobra.Command, args []string) {
-	publicKeyHash := args[0]
-	chain := blockchain.ContinueBlockChain()
-	UTXOSet := blockchain.UTXOSet{Blockchain: chain}
-	defer chain.Database.Close()
-
-	balance := 0
-	UTXOs := UTXOSet.FindUTXO([]byte(publicKeyHash))
-
-	for _, out := range UTXOs {
-		balance += out.Value
-	}
-
-	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
-}
-
 func printChain(cmd *cobra.Command, args []string) {
 	chains := blockchain.ContinueBlockChain()
 	defer chains.Database.Close()
@@ -158,4 +142,30 @@ func createWallet(cmd *cobra.Command, args []string) {
 	wallets.SaveFile()
 
 	fmt.Printf("New address is: %s\n", address)
+}
+
+func getData(cmd *cobra.Command, args []string) {
+	chains := blockchain.ContinueBlockChain()
+	defer chains.Database.Close()
+
+	chains.GetData()
+}
+
+func getBalance(cmd *cobra.Command, args []string) {
+	publicKeyHash := args[0]
+
+	chain := blockchain.ContinueBlockChain()
+	defer chain.Database.Close()
+
+	UTXOSet := blockchain.UTXOSet{Blockchain: chain}
+	defer UTXOSet.Blockchain.Database.Close()
+
+	balance := 0
+	UTXOs := UTXOSet.FindUTXO([]byte(publicKeyHash))
+
+	for _, out := range UTXOs {
+		balance += out.Value
+	}
+
+	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
 }

@@ -105,6 +105,9 @@ func NewTransaction(from, to string, amount int, UTXO *UTXOSet) *Transaction {
 	tx.ID = tx.Hash()
 	UTXO.Blockchain.SignTransaction(&tx, w.PrivateKey)
 
+	// Actualizar el conjunto UTXO después de crear la transacción
+	UTXO.UpdateWithTransaction(&tx)
+
 	return &tx
 }
 
