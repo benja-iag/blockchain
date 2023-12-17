@@ -21,6 +21,11 @@ func main() {
 	// Create the blockchain
 	blockchain.ContinueBlockChain()
 
+	if !*isPublisher {
+		network.P2p(*isPublisher)
+		return
+	}
+
 	// Create the API
 	api := api.NewAPI()
 
