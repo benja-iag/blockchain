@@ -259,11 +259,10 @@ func createPublisher(cmd *cobra.Command, args []string) {
 >>>>>>> 4bcb699 (Comment correction in function createPublisher and createSubscriber)
 	nodeInfo := utils.GetNodeInfo()
 	if nodeInfo == nil {
-		fmt.Println("'port.pid' file already exists, cannot create a publisher")
-
-	} else {
-		fmt.Println("port.pid file exists, proceeding to start publisher node.")
+		fmt.Println("'port.pid' file exists, proceeding to start publisher node.")
 		network.P2p(true) 
+	} else {
+		fmt.Println("'port.pid' file already exists, cannot create a publisher")
 	}
 }
 
