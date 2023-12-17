@@ -5,16 +5,84 @@ import (
 	"blockchain1/wallet"
 	"fmt"
 	"log"
+	"os"
+	"os/exec"
+	"runtime"
 	"strconv"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	sendFrom string = ""
-	sendTo   string = ""
-	amount   int    = 0
+	sendFrom    string = ""
+	sendTo      string = ""
+	amount      int    = 0
+	isPublisher bool   = false
 )
+
+func startNode(cmd *cobra.Command, args []string) {
+
+	if isNodeRunning() {
+		fmt.Println("Node is already running")
+		return
+	}
+
+	var p string
+	if isPublisher {
+		p = "-p"
+	}
+
+	exec.Command("cmd/node/main.exe", p).Start()
+}
+
+func stopNode(cmd *cobra.Command, args []string) {
+
+	if !isNodeRunning() {
+		fmt.Println("Node is not running")
+		return
+	}
+
+	file, err := os.Open("port.pid")
+
+	if err != nil {
+		panic(err)
+	}
+
+	var contents []byte
+
+	if _, err := file.Read(contents); err != nil {
+		panic(err)
+	}
+
+	var strContents = string(contents)
+
+	var pid string
+
+	if strings.Contains(strContents, " ") {
+		split := strings.Split(strContents, " ")
+		pid = split[0]
+	} else {
+		pid = strContents
+	}
+
+	var command *exec.Cmd
+
+	if runtime.GOOS == "windows" {
+		command = exec.Command("taskkill", "/f", "/pid", pid)
+	} else {
+		command = exec.Command("kill", pid)
+	}
+
+	if err := command.Run(); err != nil {
+		panic(err)
+	}
+
+	if file != nil {
+		file.Close()
+	}
+	os.Remove("port.pid")
+}
 
 func createBlockChain(cmd *cobra.Command, args []string) {
 	address := args[0]
@@ -158,4 +226,18 @@ func createWallet(cmd *cobra.Command, args []string) {
 	wallets.SaveFile()
 
 	fmt.Printf("New address is: %s\n", address)
+}
+
+func isNodeRunning() bool {
+	fs, err := os.Stat("port.pid")
+
+	if err != nil {
+		return false
+	}
+
+	if fs.Size() == 0 {
+		return false
+	}
+
+	return true
 }

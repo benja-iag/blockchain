@@ -84,12 +84,28 @@ func init() {
 		Run:   listAddresses,
 	}
 
+	var cmdStartNode = &cobra.Command{
+		Use:   "startnode",
+		Short: "Starts a node",
+		Args:  cobra.ExactArgs(1),
+		Run:   startNode,
+	}
+
+	var cmdStopNode = &cobra.Command{
+		Use:   "stopnode",
+		Short: "Stops a node",
+		Args:  cobra.ExactArgs(0),
+		Run:   stopNode,
+	}
+
 	cmdSend.Flags().StringVarP(&sendFrom, "from", "f", "", "Address from which to send coins")
 	cmdSend.Flags().StringVarP(&sendTo, "to", "t", "", "Address to send coins to")
 	cmdSend.Flags().IntVarP(&amount, "amount", "a", 0, "Amount to be sent")
 	cmdSend.MarkFlagRequired("from")
 	cmdSend.MarkFlagRequired("to")
 	cmdSend.MarkFlagRequired("amount")
+
+	cmdStartNode.Flags().BoolVarP(&isPublisher, "publisher", "p", false, "Is this node a publisher?")
 
 	rootCmd.AddCommand(cmdGetBalance)
 	rootCmd.AddCommand(cmdReindexUTXO)
@@ -99,5 +115,7 @@ func init() {
 	rootCmd.AddCommand(cmdSend)
 	rootCmd.AddCommand(cmdCreateWallet)
 	rootCmd.AddCommand(cmdListAddresses)
+	rootCmd.AddCommand(cmdStartNode)
+	rootCmd.AddCommand(cmdStopNode)
 
 }
