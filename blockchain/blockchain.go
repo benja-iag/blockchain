@@ -323,6 +323,5 @@ func (chain *Blockchain) GetData() (string, string) {
 		log.Panic(err)
 	}
 	blockchainJSONString := string(jsonData)
-	fmt.Println(blockchainJSONString)
 	return string(blockchainJSONString), prettyResult.String()
 }
