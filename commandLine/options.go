@@ -6,7 +6,7 @@ import (
 	"blockchain1/utils"
 	"blockchain1/wallet"
 	"fmt"
-	//"go/format"
+
 	"log"
 	"os"
 	"os/exec"
@@ -116,22 +116,6 @@ func reindexUTXO(cmd *cobra.Command, args []string) {
 	count := UTXOSet.CountTransactions()
 
 	fmt.Printf("Done! There are %d transactions in the UTXO set.\n", count)
-}
-
-func getBalance(cmd *cobra.Command, args []string) {
-	publicKeyHash := args[0]
-	chain := blockchain.ContinueBlockChain()
-	UTXOSet := blockchain.UTXOSet{Blockchain: chain}
-	defer chain.Database.Close()
-
-	balance := 0
-	UTXOs := UTXOSet.FindUTXO([]byte(publicKeyHash))
-
-	for _, out := range UTXOs {
-		balance += out.Value
-	}
-
-	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
 }
 
 func printChain(cmd *cobra.Command, args []string) {
@@ -260,7 +244,7 @@ func createPublisher(cmd *cobra.Command, args []string) {
 	nodeInfo := utils.GetNodeInfo()
 	if nodeInfo == nil {
 		fmt.Println("'port.pid' file exists, proceeding to start publisher node.")
-		network.P2p(true) 
+		network.P2p(true)
 	} else {
 		fmt.Println("'port.pid' file already exists, cannot create a publisher")
 	}
@@ -268,6 +252,7 @@ func createPublisher(cmd *cobra.Command, args []string) {
 
 func createSubscriber(cmd *cobra.Command, args []string) {
 	fmt.Println("Starting subscriber node...")
+<<<<<<< HEAD
 	network.P2p(false) 
 <<<<<<< HEAD
 }*/
@@ -297,3 +282,33 @@ func createSubscriber(cmd *cobra.Command, args []string) {
 =======
 }
 >>>>>>> 4bcb699 (Comment correction in function createPublisher and createSubscriber)
+=======
+	network.P2p(false)
+}
+
+func getData(cmd *cobra.Command, args []string) {
+	chains := blockchain.ContinueBlockChain()
+	defer chains.Database.Close()
+
+	chains.GetData()
+}
+
+func getBalance(cmd *cobra.Command, args []string) {
+	publicKeyHash := args[0]
+
+	chain := blockchain.ContinueBlockChain()
+	defer chain.Database.Close()
+
+	UTXOSet := blockchain.UTXOSet{Blockchain: chain}
+	defer UTXOSet.Blockchain.Database.Close()
+
+	balance := 0
+	UTXOs := UTXOSet.FindUTXO([]byte(publicKeyHash))
+
+	for _, out := range UTXOs {
+		balance += out.Value
+	}
+
+	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
+}
+>>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)

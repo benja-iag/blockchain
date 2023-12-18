@@ -96,6 +96,7 @@ func init() {
 		Run:   listAddresses,
 	}
 
+<<<<<<< HEAD
 	var cmdStartNode = &cobra.Command{
 		Use:   "startnode",
 		Short: "Starts a node",
@@ -110,6 +111,8 @@ func init() {
 		Run:   stopNode,
 	}
 
+=======
+>>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)
 	var cmdGetData = &cobra.Command{
 		Use:   "getdata",
 		Short: "Prints data from the blockchain",
@@ -142,7 +145,10 @@ func init() {
 =======
 	rootCmd.AddCommand(cmdCreateSubscriber)
 	rootCmd.AddCommand(cmdCreatePublisher)
+<<<<<<< HEAD
 	
 >>>>>>> 27be831 (Implement createSubscriber and createPublisher commands)
+=======
+>>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)
 
 }
