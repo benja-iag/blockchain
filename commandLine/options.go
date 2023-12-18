@@ -8,7 +8,6 @@ import (
 	"fmt"
 
 	"log"
-	"strconv"
 
 	"github.com/spf13/cobra"
 )
@@ -53,11 +52,14 @@ func reindexUTXO(cmd *cobra.Command, args []string) {
 func printChain(cmd *cobra.Command, args []string) {
 	chains := blockchain.ContinueBlockChain()
 	defer chains.Database.Close()
-	iter := chains.Iterator()
-	tabs := "\t"
+	//iter := chains.Iterator()
+	//tabs := "\t"
 
 	listAddresses(cmd, args)
-	for {
+
+	_, res := chains.GetData()
+	fmt.Println(res)
+	/*for {
 		block := iter.Next()
 
 		fmt.Printf("Previous hash: %x\n", block.PreviousHash)
@@ -81,7 +83,7 @@ func printChain(cmd *cobra.Command, args []string) {
 		if len(block.PreviousHash) == 0 {
 			break
 		}
-	}
+	}*/
 }
 
 func send(cmd *cobra.Command, args []string) {
