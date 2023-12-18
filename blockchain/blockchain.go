@@ -282,34 +282,3 @@ func (bc *Blockchain) VerifyTransaction(tx *Transaction) bool {
 	}
 	return tx.Verify(prevTxs)
 }
-
-func (chain *Blockchain) GetData() {
-	iter := chain.Iterator()
-
-	for {
-		block := iter.Next()
-		fmt.Println("--------------")
-		fmt.Printf("Block Hash: %x\n", block.Hash)
-		fmt.Printf("Previous Hash: %x\n", block.PreviousHash)
-
-		for _, tx := range block.Transactions {
-			fmt.Println("\nTransaction:")
-			fmt.Printf("  TXID: %x\n", tx.ID)
-			fmt.Printf("  Inputs:\n")
-			for _, in := range tx.Inputs {
-				fmt.Printf("    TXID: %x\n", in.ID)
-				fmt.Printf("    Out: %d\n", in.Out)
-				fmt.Printf("    Signature: %x\n", in.Signature)
-			}
-
-			fmt.Printf("  Outputs:\n")
-			for _, out := range tx.Outputs {
-				fmt.Printf("    Value: %d\n", out.Value)
-			}
-		}
-
-		if len(block.PreviousHash) == 0 {
-			break
-		}
-	}
-}
