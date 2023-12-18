@@ -4,11 +4,13 @@ import (
 	"bytes"
 	"crypto/ed25519"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
 	"os"
 	"runtime"
+	"strings"
 
 	//"github.com/syndtr/goleveldb/leveldb"
 	"blockchain1/database"
@@ -281,4 +283,45 @@ func (bc *Blockchain) VerifyTransaction(tx *Transaction) bool {
 		prevTxs[hex.EncodeToString(prevTx.ID)] = prevTx
 	}
 	return tx.Verify(prevTxs)
+}
+
+func (chain *Blockchain) GetData() (string, string) {
+	var prettyResult strings.Builder
+	iter := chain.Iterator()
+	blockAux := []Block{}
+	for {
+		block := iter.Next()
+		blockAux = append(blockAux, *block)
+		prettyResult.WriteString("--------------\n")
+		prettyResult.WriteString(fmt.Sprintf("Block Hash: %x\n", block.Hash))
+		prettyResult.WriteString(fmt.Sprintf("Previous Hash: %x\n", block.PreviousHash))
+		prettyResult.WriteString(fmt.Sprintf("Timestamp: %#v\n", block.TimeStamp))
+
+		for _, tx := range block.Transactions {
+			prettyResult.WriteString("\nTransaction:\n")
+			prettyResult.WriteString(fmt.Sprintf("  TXID: %x\n", tx.ID))
+			prettyResult.WriteString("  Inputs:\n")
+			for _, in := range tx.Inputs {
+				prettyResult.WriteString(fmt.Sprintf("    TXID: %x\n", in.ID))
+				prettyResult.WriteString(fmt.Sprintf("    Out: %d\n", in.Out))
+				prettyResult.WriteString(fmt.Sprintf("    Signature: %x\n", in.Signature))
+			}
+
+			prettyResult.WriteString("  Outputs:\n")
+			for _, out := range tx.Outputs {
+				prettyResult.WriteString(fmt.Sprintf("    Value: %d\n", out.Value))
+			}
+		}
+
+		if len(block.PreviousHash) == 0 {
+			break
+		}
+	}
+
+	jsonData, err := json.Marshal(blockAux)
+	if err != nil {
+		log.Panic(err)
+	}
+	blockchainJSONString := string(jsonData)
+	return string(blockchainJSONString), prettyResult.String()
 }
