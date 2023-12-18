@@ -84,15 +84,6 @@ func init() {
 		Run:   listAddresses,
 	}
 
-	var cmdGetData = &cobra.Command{
-		Use:   "getdata",
-		Short: "Prints data from the blockchain",
-		Args:  cobra.ExactArgs(0),
-		Run:   getData, // Cambia a la nueva función "getData"
-	}
-
-	rootCmd.AddCommand(cmdGetData)
-
 	cmdSend.Flags().StringVarP(&sendFrom, "from", "f", "", "Address from which to send coins")
 	cmdSend.Flags().StringVarP(&sendTo, "to", "t", "", "Address to send coins to")
 	cmdSend.Flags().IntVarP(&amount, "amount", "a", 0, "Amount to be sent")
