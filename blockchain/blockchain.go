@@ -14,6 +14,7 @@ import (
 
 	//"github.com/syndtr/goleveldb/leveldb"
 	"blockchain1/database"
+	"blockchain1/wallet"
 )
 
 const (
@@ -291,6 +292,7 @@ func (chain *Blockchain) GetData() (string, string) {
 	blockAux := []Block{}
 	for {
 		block := iter.Next()
+		tabs := "\t"
 		blockAux = append(blockAux, *block)
 		prettyResult.WriteString("--------------\n")
 		prettyResult.WriteString(fmt.Sprintf("Block Hash: %x\n", block.Hash))
@@ -298,18 +300,21 @@ func (chain *Blockchain) GetData() (string, string) {
 		prettyResult.WriteString(fmt.Sprintf("Timestamp: %#v\n", block.TimeStamp))
 
 		for _, tx := range block.Transactions {
+			tabs = "\t"
 			prettyResult.WriteString("\nTransaction:\n")
-			prettyResult.WriteString(fmt.Sprintf("  TXID: %x\n", tx.ID))
-			prettyResult.WriteString("  Inputs:\n")
+			prettyResult.WriteString(fmt.Sprintf("%sTXID: %x\n", tabs, tx.ID))
+			prettyResult.WriteString(fmt.Sprintf("\n%sInputs:\n", tabs))
 			for _, in := range tx.Inputs {
-				prettyResult.WriteString(fmt.Sprintf("    TXID: %x\n", in.ID))
-				prettyResult.WriteString(fmt.Sprintf("    Out: %d\n", in.Out))
-				prettyResult.WriteString(fmt.Sprintf("    Signature: %x\n", in.Signature))
+				prettyResult.WriteString(fmt.Sprintf("%sTXID: %x\n", tabs, in.ID))
+				prettyResult.WriteString(fmt.Sprintf("%sOut: %d\n", tabs, in.Out))
+				prettyResult.WriteString(fmt.Sprintf("%sSignature: %x\n", tabs, in.Signature))
 			}
 
-			prettyResult.WriteString("  Outputs:\n")
+			prettyResult.WriteString(fmt.Sprintf("\n%sOutputs:\n", tabs))
 			for _, out := range tx.Outputs {
-				prettyResult.WriteString(fmt.Sprintf("    Value: %d\n", out.Value))
+				prettyResult.WriteString(fmt.Sprintf("%sValue: %d\n", tabs, out.Value))
+				keyDecoded := wallet.Base58Decode(out.PubKeyHash)
+				prettyResult.WriteString(fmt.Sprintf("%sAddress: %s\n", tabs, string(keyDecoded)))
 			}
 		}
 
