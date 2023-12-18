@@ -4,6 +4,8 @@ Fecha: 29-11-2023
 
 Versión: 2.0
 
+Trello [here:](https://trello.com/invite/b/6WKRprW0/ATTI7361f964a6ed79459b46af15b121fc76E1CC819F/blockchain).
+
 ----
 
 ## Descripción del proyecto
@@ -30,28 +32,33 @@ Este módulo define la estructura disponible del sistema para la interacción de
 
 ### Wallet
 
-El archivo establece dos llaves: Pública y Privada. La Privada es única y se usa como identificador, mientras que la Pública se comparte. La generación de direcciones se realiza a través de cálculos en una curva elíptica con ECDSA. La llave Privada se extrae de este proceso, y la llave Pública se deriva mediante algoritmos de hash. La dirección Pública final se obtiene combinando varios elementos y procesándolos mediante base 58. En general, el módulo determina y facilita la creación de direcciones con lógica Privada para funciones en el sistema.
-
+El archivo establece dos llaves: Pública y Privada. La Privada es única y se usa como identificador, mientras que la Pública se comparte. La generación de direcciones se realiza a través de cálculos en una curva elíptica con ECDSA. La llave Privada se extrae de este proceso, y la llave Pública se deriva mediante algoritmos de hash. La dirección Pública final se obtiene combinando varios elementos y procesándolos mediante base 58. En general, el módulo determina y facilita la creación de direcciones con lógica Privada para funciones en el sistema. <DIRECCIÓN> corresponde al hash que entrega la función.
 ## Funciones disponibles
 
+### createwallet
+
+```$go run main.go createwallet ```
+
+Entrega una dirección de wallet, diferente cada vez que se ejecuta. Se almacena en la DB automáticamente.
 
 ### createblockchain
 
 Para inicializar el sistema, se ejecuta el siguiente comando:
 
-```$ go run main.go createblockchain "<DIRECCION>"```
+```$ go run main.go createblockchain <DIRECCION>```
 
-Se reemplaza `<DIRECCION>` por la dirección que se desea definir (Se recomienda el nombre del usuario). La cadena se inicializa con una recompensa de 100 unidades para el usuario de dicha dirección.
+Se reemplaza `<DIRECCION>` por la dirección que se desea definir. La cadena se inicializa con una recompensa de 100 unidades para el usuario de dicha dirección. 
+**IMPORTANTE**: La dirección para crear la blockchain debe ser una dirección de wallet creada anteriormente.
 
 ### getbalance
 
-```$ go run main.go getbalance "<DIRECCION>"```
+```$ go run main.go getbalance <DIRECCION>```
 
 Se reemplaza `<DIRECCION>` por la dirección del usuario sobre el cual se desea conocer la cantidad de unidades del usuario asociado a la dirección proveída.
 
 ### send
 
-```$ go run main.go send -f "<DIRECCION_1>" -t "<DIRECCION_2>" -a <CANTIDAD>```
+```$ go run main.go send -f <DIRECCION_1> -t <DIRECCION_2> -a <CANTIDAD>```
 
 Se reemplaza `<DIRECCION_1>` por la dirección desde la que se desea enviar unidades. Se reemplaza `<DIRECCION_2>` por la dirección hacia la que se desea recibir unidades. Se reemplaza `<CANTIDAD>` por el total de unidades que se desea transferir.
 
