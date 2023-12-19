@@ -1,5 +1,11 @@
 # Proyecto de Blockchain
 
+#### ----
+**Nota al 19/12**: *Debido a circunstancias no identificadas, el funcionamiento de la implementación de la red de nodos se rompió. Si bien todos las funcionalidades escenciales de la blockchain funcionan sin problemas y que la conexión de los nodos funciona, se identificó un error en el acceso del nodo publicador al momento de acceder a la base de datos dentro de la red. Se estima que el problema podría recaer en el modo de uso de Libp2p, esto es debido a que aquellas funciones que no requieren de esta librería operan correctamente.
+
+Para replicar este error, ejecute el comando para crear un suscriptor y luego crear un publicador. Tras unos segundos, se presentará el error en pantalla, indicando que el nodo publicador no puede acceder a la base de datos al momento de ejecutar la función ContinueBlockchain (que es aquella que accede a la base de datos).*
+#### ----
+
 Fecha: 19-12-2023
 
 Versión: 3.0
