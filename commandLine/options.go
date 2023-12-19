@@ -2,27 +2,15 @@ package commandLine
 
 import (
 	"blockchain1/blockchain"
-	"blockchain1/network"
 	"blockchain1/utils"
 	"blockchain1/wallet"
 	"fmt"
+	"strconv"
 
 	"log"
-<<<<<<< HEAD
-<<<<<<< HEAD
 	"os"
 	"os/exec"
 	"runtime"
-	"strconv"
-	"strings"
-=======
->>>>>>> ff712fc (Fix: getdata & printchain format)
-=======
-	"os"
-	"os/exec"
-	"runtime"
-	"strings"
->>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)
 
 	"github.com/spf13/cobra"
 )
@@ -34,21 +22,6 @@ var (
 	isPublisher bool   = false
 )
 
-func startNode(cmd *cobra.Command, args []string) {
-
-	if isNodeRunning() {
-		fmt.Println("Node is already running")
-		return
-	}
-
-	var p string
-	if isPublisher {
-		p = "-p"
-	}
-
-	exec.Command("cmd/node/main.exe", p).Start()
-}
-
 func stopNode(cmd *cobra.Command, args []string) {
 
 	if !isNodeRunning() {
@@ -56,44 +29,20 @@ func stopNode(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	file, err := os.Open("port.pid")
-
-	if err != nil {
-		panic(err)
-	}
-
-	var contents []byte
-
-	if _, err := file.Read(contents); err != nil {
-		panic(err)
-	}
-
-	var strContents = string(contents)
-
-	var pid string
-
-	if strings.Contains(strContents, " ") {
-		split := strings.Split(strContents, " ")
-		pid = split[0]
-	} else {
-		pid = strContents
-	}
+	info := utils.GetNodeInfo()
 
 	var command *exec.Cmd
 
 	if runtime.GOOS == "windows" {
-		command = exec.Command("taskkill", "/f", "/pid", pid)
+		command = exec.Command("taskkill", "/f", "/pid", strconv.Itoa(info.PID))
 	} else {
-		command = exec.Command("kill", pid)
+		command = exec.Command("kill", strconv.Itoa(info.PID))
 	}
 
 	if err := command.Run(); err != nil {
 		panic(err)
 	}
 
-	if file != nil {
-		file.Close()
-	}
 	os.Remove("port.pid")
 }
 
@@ -228,8 +177,6 @@ func createWallet(cmd *cobra.Command, args []string) {
 	fmt.Printf("New address is: %s\n", address)
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 func isNodeRunning() bool {
 	fs, err := os.Stat("port.pid")
 
@@ -249,11 +196,8 @@ func getData(cmd *cobra.Command, args []string) {
 
 	chains.GetData()
 }
-=======
+
 /*func createPublisher(cmd *cobra.Command, args []string) {
-=======
-func createPublisher(cmd *cobra.Command, args []string) {
->>>>>>> 4bcb699 (Comment correction in function createPublisher and createSubscriber)
 	nodeInfo := utils.GetNodeInfo()
 	if nodeInfo == nil {
 		fmt.Println("'port.pid' file exists, proceeding to start publisher node.")
@@ -265,45 +209,29 @@ func createPublisher(cmd *cobra.Command, args []string) {
 
 func createSubscriber(cmd *cobra.Command, args []string) {
 	fmt.Println("Starting subscriber node...")
-<<<<<<< HEAD
-	network.P2p(false) 
-<<<<<<< HEAD
+	network.P2p(false)
 }*/
 
 func createPublisher(cmd *cobra.Command, args []string) {
-	for {
-		nodeInfo := utils.GetNodeInfo()
-			if nodeInfo == nil {
-				fmt.Println("'port.pid' file already exists, cannot create a publisher")
-			} else {
-				fmt.Println("port.pid file exists, proceeding to start publisher node.")
-				network.P2p(true) 
-		}
+
+	if isNodeRunning() {
+		fmt.Println("Node is already running")
+		return
 	}
-	
+
+	exec.Command("node.exe", "-p").Start()
+
 }
 
 func createSubscriber(cmd *cobra.Command, args []string) {
-	fmt.Println("Starting subscriber node...")
-	for {
-		
-		network.P2p(false)	
+
+	if isNodeRunning() {
+		fmt.Println("Node is already running")
+		return
 	}
-	 
-}
->>>>>>> 27be831 (Implement createSubscriber and createPublisher commands)
-=======
-}
->>>>>>> 4bcb699 (Comment correction in function createPublisher and createSubscriber)
-=======
-	network.P2p(false)
-}
 
-func getData(cmd *cobra.Command, args []string) {
-	chains := blockchain.ContinueBlockChain()
-	defer chains.Database.Close()
+	exec.Command("node.exe").Start()
 
-	chains.GetData()
 }
 
 func getBalance(cmd *cobra.Command, args []string) {
@@ -324,20 +252,3 @@ func getBalance(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
 }
-<<<<<<< HEAD
->>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)
-=======
-func isNodeRunning() bool {
-	fs, err := os.Stat("port.pid")
-
-	if err != nil {
-		return false
-	}
-
-	if fs.Size() == 0 {
-		return false
-	}
-
-	return true
-}
->>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)

@@ -23,6 +23,7 @@ var rootCmd = &cobra.Command{
 		"listaddresses",
 		"createsubscriber",
 		"createpublisher",
+		"stopnode",
 	},
 }
 
@@ -106,14 +107,6 @@ func init() {
 		Run:   listAddresses,
 	}
 
-<<<<<<< HEAD
-	var cmdStartNode = &cobra.Command{
-		Use:   "startnode",
-		Short: "Starts a node",
-		Args:  cobra.ExactArgs(1),
-		Run:   startNode,
-	}
-
 	var cmdStopNode = &cobra.Command{
 		Use:   "stopnode",
 		Short: "Stops a node",
@@ -121,8 +114,6 @@ func init() {
 		Run:   stopNode,
 	}
 
-=======
->>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)
 	var cmdGetData = &cobra.Command{
 		Use:   "getdata",
 		Short: "Prints data from the blockchain",
@@ -131,19 +122,6 @@ func init() {
 	}
 
 	rootCmd.AddCommand(cmdGetData)
-	var cmdStartNode = &cobra.Command{
-		Use:   "startnode",
-		Short: "Starts a node",
-		Args:  cobra.ExactArgs(1),
-		Run:   startNode,
-	}
-
-	var cmdStopNode = &cobra.Command{
-		Use:   "stopnode",
-		Short: "Stops a node",
-		Args:  cobra.ExactArgs(0),
-		Run:   stopNode,
-	}
 
 	cmdSend.Flags().StringVarP(&sendFrom, "from", "f", "", "Address from which to send coins")
 	cmdSend.Flags().StringVarP(&sendTo, "to", "t", "", "Address to send coins to")
@@ -151,8 +129,6 @@ func init() {
 	cmdSend.MarkFlagRequired("from")
 	cmdSend.MarkFlagRequired("to")
 	cmdSend.MarkFlagRequired("amount")
-
-	cmdStartNode.Flags().BoolVarP(&isPublisher, "publisher", "p", false, "Is this node a publisher?")
 
 	rootCmd.AddCommand(cmdGetBalance)
 	rootCmd.AddCommand(cmdReindexUTXO)
@@ -162,21 +138,8 @@ func init() {
 	rootCmd.AddCommand(cmdSend)
 	rootCmd.AddCommand(cmdCreateWallet)
 	rootCmd.AddCommand(cmdListAddresses)
-<<<<<<< HEAD
-	rootCmd.AddCommand(cmdStartNode)
 	rootCmd.AddCommand(cmdStopNode)
-=======
 	rootCmd.AddCommand(cmdCreateSubscriber)
 	rootCmd.AddCommand(cmdCreatePublisher)
-<<<<<<< HEAD
-<<<<<<< HEAD
-	
->>>>>>> 27be831 (Implement createSubscriber and createPublisher commands)
-=======
->>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)
-=======
-	rootCmd.AddCommand(cmdStartNode)
-	rootCmd.AddCommand(cmdStopNode)
->>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)
 
 }

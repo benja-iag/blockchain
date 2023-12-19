@@ -8,6 +8,7 @@ import (
 	"blockchain1/api"
 	"blockchain1/blockchain"
 	"blockchain1/network"
+	"blockchain1/utils"
 )
 
 var (
@@ -21,31 +22,24 @@ func main() {
 	// Create the blockchain
 	blockchain.ContinueBlockChain()
 
-<<<<<<< HEAD
 	if !*isPublisher {
 		network.P2p(*isPublisher)
 		return
 	}
 
-=======
->>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)
 	// Create the API
 	api := api.NewAPI()
 
 	// Create the network
 	go network.P2p(*isPublisher)
 
-	file, err := os.Create("port.pid")
-
-	if err != nil {
-		panic(err)
-	}
-
 	pid := os.Getpid()
 
-	if file != nil {
-		file.WriteString(fmt.Sprintf("%d 8080", pid))
-		file.Close()
+	err := utils.CreatePortPIDFile(8080, pid, *isPublisher)
+
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
 	// Run the API
