@@ -36,6 +36,7 @@ func P2p(publisher bool) {
 		libp2p.ListenAddrs(sourceMultiAddr),
 		libp2p.Identity(privKey),
 	)
+
 	if err != nil {
 		fmt.Println("Error creating node")
 		panic(err)

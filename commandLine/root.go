@@ -13,7 +13,22 @@ var rootCmd = &cobra.Command{
 	Long:  `blockchain is a CLI for blockchain`,
 	Run: func(cmd *cobra.Command, args []string) {
 	},
-	ValidArgs: []string{"getbalance", "createblockchain", "printchain", "searchblock", "send", "createwallet", "listaddresses", "createsubscriber", "createpublisher"},
+
+	ValidArgs: []string{
+		"getbalance",
+		"createblockchain",
+		"printchain",
+		"searchblock",
+		"send",
+		"createwallet",
+		"listaddresses",
+		"createsubscriber",
+		"createpublisher",
+		"stopnode",
+	},
+
+
+
 }
 
 func Execute() {
@@ -96,6 +111,16 @@ func init() {
 		Run:   listAddresses,
 	}
 
+
+	var cmdStopNode = &cobra.Command{
+		Use:   "stopnode",
+		Short: "Stops a node",
+		Args:  cobra.ExactArgs(0),
+		Run:   stopNode,
+	}
+
+
+
 	var cmdGetData = &cobra.Command{
 		Use:   "getdata",
 		Short: "Prints data from the blockchain",
@@ -120,6 +145,10 @@ func init() {
 	rootCmd.AddCommand(cmdSend)
 	rootCmd.AddCommand(cmdCreateWallet)
 	rootCmd.AddCommand(cmdListAddresses)
+
+	rootCmd.AddCommand(cmdStopNode)
+
+
 	rootCmd.AddCommand(cmdCreateSubscriber)
 	rootCmd.AddCommand(cmdCreatePublisher)
 

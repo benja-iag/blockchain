@@ -6,13 +6,15 @@ import (
 	"os"
 )
 
-type nodeInfo struct {
+
+type NodeInfo struct {
+
 	Port      int  `json:"port"`
 	PID       int  `json:"pid"`
 	Publisher bool `json:"publisher"`
 }
 
-func GetNodeInfo() *nodeInfo {
+func GetNodeInfo() *NodeInfo {
 	filename := "port.pid"
 	_, err := os.Stat(filename)
 	if os.IsNotExist(err) {
@@ -29,7 +31,7 @@ func GetNodeInfo() *nodeInfo {
 		return nil
 	}
 
-	var data nodeInfo
+	var data NodeInfo
 	err = json.Unmarshal(fileData, &data)
 	if err != nil {
 		fmt.Println("Error decoding the file 'port.pid' as JSON:", err)
