@@ -100,18 +100,38 @@ func ReadData(rw *bufio.ReadWriter) {
 	}
 }
 func WriteData(rw *bufio.ReadWriter) {
+	if !blockchain.DBexists() {
+		fmt.Println("InitBlockChain: Blockchain does not exist.")
+		return
+	}
+
+	var blocks []blockchain.Block
+
 	for {
 
 		time.Sleep(10 * time.Second)
-		if !blockchain.DBexists() {
-			fmt.Println("InitBlockChain: Blockchain does not exist.")
-			continue
+
+		chain := blockchain.ContinueBlockChain()
+
+		jsonBlocks, _ := chain.GetData()
+
+		json.Unmarshal([]byte(jsonBlocks), &blocks)
+
+		w := wallet.Wallets{}
+		w.LoadFile()
+
+		waddr := w.GetAddressAndWallets()
+
+		data := WrittenData{blocks, waddr}
+
+		jsonData, err := json.Marshal(data)
+
+		if err != nil {
+			fmt.Println("Error marshalling")
+			panic(err)
 		}
 
-		str := "Hello from Launchpad!\n"
-		log.Printf("Writing data: %s", str)
-
-		rw.WriteString(str)
+		rw.WriteString(string(jsonData) + "\n")
 		rw.Flush()
 	}
 }
