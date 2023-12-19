@@ -49,6 +49,7 @@ El archivo establece dos llaves: Pública y Privada. La Privada es única y se u
 
 ## Funciones disponibles
 
+En primera instancia, se recomienda seguir los siguientes comandos en el orden en el que se presentan:
 
 
 ### createwallet
