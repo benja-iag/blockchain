@@ -13,7 +13,17 @@ var rootCmd = &cobra.Command{
 	Long:  `blockchain is a CLI for blockchain`,
 	Run: func(cmd *cobra.Command, args []string) {
 	},
-	ValidArgs: []string{"getbalance", "createblockchain", "printchain", "searchblock", "send", "createwallet", "listaddresses", "createsubscriber", "createpublisher"},
+	ValidArgs: []string{
+		"getbalance",
+		"createblockchain",
+		"printchain",
+		"searchblock",
+		"send",
+		"createwallet",
+		"listaddresses",
+		"createsubscriber",
+		"createpublisher",
+	},
 }
 
 func Execute() {
@@ -121,6 +131,19 @@ func init() {
 	}
 
 	rootCmd.AddCommand(cmdGetData)
+	var cmdStartNode = &cobra.Command{
+		Use:   "startnode",
+		Short: "Starts a node",
+		Args:  cobra.ExactArgs(1),
+		Run:   startNode,
+	}
+
+	var cmdStopNode = &cobra.Command{
+		Use:   "stopnode",
+		Short: "Stops a node",
+		Args:  cobra.ExactArgs(0),
+		Run:   stopNode,
+	}
 
 	cmdSend.Flags().StringVarP(&sendFrom, "from", "f", "", "Address from which to send coins")
 	cmdSend.Flags().StringVarP(&sendTo, "to", "t", "", "Address to send coins to")
@@ -146,9 +169,14 @@ func init() {
 	rootCmd.AddCommand(cmdCreateSubscriber)
 	rootCmd.AddCommand(cmdCreatePublisher)
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 >>>>>>> 27be831 (Implement createSubscriber and createPublisher commands)
 =======
 >>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)
+=======
+	rootCmd.AddCommand(cmdStartNode)
+	rootCmd.AddCommand(cmdStopNode)
+>>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)
 
 }

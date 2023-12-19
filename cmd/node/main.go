@@ -21,11 +21,14 @@ func main() {
 	// Create the blockchain
 	blockchain.ContinueBlockChain()
 
+<<<<<<< HEAD
 	if !*isPublisher {
 		network.P2p(*isPublisher)
 		return
 	}
 
+=======
+>>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)
 	// Create the API
 	api := api.NewAPI()
 

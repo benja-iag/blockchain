@@ -9,6 +9,7 @@ import (
 
 	"log"
 <<<<<<< HEAD
+<<<<<<< HEAD
 	"os"
 	"os/exec"
 	"runtime"
@@ -16,6 +17,12 @@ import (
 	"strings"
 =======
 >>>>>>> ff712fc (Fix: getdata & printchain format)
+=======
+	"os"
+	"os/exec"
+	"runtime"
+	"strings"
+>>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)
 
 	"github.com/spf13/cobra"
 )
@@ -317,4 +324,20 @@ func getBalance(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("Balance of %s: %d\n", publicKeyHash, balance)
 }
+<<<<<<< HEAD
 >>>>>>> 9863c39 (Add GetData function to retrieve blockchain data)
+=======
+func isNodeRunning() bool {
+	fs, err := os.Stat("port.pid")
+
+	if err != nil {
+		return false
+	}
+
+	if fs.Size() == 0 {
+		return false
+	}
+
+	return true
+}
+>>>>>>> 3356a1d (Minor modification on searchNodeInfo.go)
