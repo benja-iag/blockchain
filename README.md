@@ -33,7 +33,10 @@ Este módulo define la estructura disponible del sistema para la interacción de
 ### Wallet
 
 El archivo establece dos llaves: Pública y Privada. La Privada es única y se usa como identificador, mientras que la Pública se comparte. La generación de direcciones se realiza a través de cálculos en una curva elíptica con ECDSA. La llave Privada se extrae de este proceso, y la llave Pública se deriva mediante algoritmos de hash. La dirección Pública final se obtiene combinando varios elementos y procesándolos mediante base 58. En general, el módulo determina y facilita la creación de direcciones con lógica Privada para funciones en el sistema. <DIRECCIÓN> corresponde al hash que entrega la función.
+
 ## Funciones disponibles
+
+
 
 ### createwallet
 
@@ -41,20 +44,37 @@ El archivo establece dos llaves: Pública y Privada. La Privada es única y se u
 
 Entrega una dirección de wallet, diferente cada vez que se ejecuta. Se almacena en la DB automáticamente.
 
+#### Ejemplo:
+ ![createwallet](https://imgur.com/PLUvyhW)
+
+ 
+
+### listaddresses
+
+```$go run main.go listaddresses```
+
+Entrega el listado de direcciones creadas en el sistema.
+
+#### Ejemplo:
+
+![listaddresses](https://imgur.com/pPUD0UR)
+
+
+
 ### createblockchain
 
 Para inicializar el sistema, se ejecuta el siguiente comando:
 
 ```$ go run main.go createblockchain <DIRECCION>```
 
+
+
+
 Se reemplaza `<DIRECCION>` por la dirección que se desea definir. La cadena se inicializa con una recompensa de 100 unidades para el usuario de dicha dirección. 
 **IMPORTANTE**: La dirección para crear la blockchain debe ser una dirección de wallet creada anteriormente.
 
-### getbalance
-
-```$ go run main.go getbalance <DIRECCION>```
-
-Se reemplaza `<DIRECCION>` por la dirección del usuario sobre el cual se desea conocer la cantidad de unidades del usuario asociado a la dirección proveída.
+#### Ejemplo
+![createblockchain](https://imgur.com/S6NZKiw)
 
 ### send
 
@@ -62,23 +82,29 @@ Se reemplaza `<DIRECCION>` por la dirección del usuario sobre el cual se desea 
 
 Se reemplaza `<DIRECCION_1>` por la dirección desde la que se desea enviar unidades. Se reemplaza `<DIRECCION_2>` por la dirección hacia la que se desea recibir unidades. Se reemplaza `<CANTIDAD>` por el total de unidades que se desea transferir.
 
+#### Ejemplo:
+![send](https://imgur.com/wDwhYOe)
+
+
+### getbalance
+
+```$ go run main.go getbalance <DIRECCION>```
+
+Se reemplaza `<DIRECCION>` por la dirección del usuario sobre el cual se desea conocer la cantidad de unidades del usuario asociado a la dirección proveída.
+
+
+#### Ejemplo:
+![getbalance](https://imgur.com/NT7ePGi)
+
 ### printchain
 
 ```$ go run main.go printchain```
 
 Imprime la cadena.
 
-### createwallet
+![printchain](https://imgur.com/WiDvZmR)
 
-```$go run main.go createwallet```
 
-Entrega una dirección de wallet, diferente cada vez que se ejecuta. Se almacena en la DB automáticamente.
-
-### listaddresses
-
-```$go run main.go listaddresses```
-
-Entrega el listado de direcciones creadas en el sistema.
 
 ## Referencias y fuentes
 
