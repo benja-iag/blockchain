@@ -1,14 +1,10 @@
-OBJ_MAIN = cmd/blockchain/main.go
-TARGET_MAIN = main.exe
-
-OBJ_NODE = cmd/node/main.go
-TARGET_NODE = node.exe
+OBJ = main.go
+TARGET = main.exe
 
 all: build
 
 build:
-	go build -o $(TARGET_MAIN) $(OBJ_MAIN)
-	go build -o $(TARGET_NODE) $(OBJ_NODE)
+	go build -o $(TARGET) $(OBJ)
 
 clean:
 	$(RM) -rf tmp $(TARGET) .completion.*

@@ -2,58 +2,21 @@ package commandLine
 
 import (
 	"blockchain1/blockchain"
-
-	"blockchain1/utils"
-
-
-
-
 	"blockchain1/network"
-
+	"blockchain1/utils"
 	"blockchain1/wallet"
 	"fmt"
 
-
-
-
 	"log"
-	"os"
-	"os/exec"
-	"runtime"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	sendFrom    string = ""
-	sendTo      string = ""
-	amount      int    = 0
-	isPublisher bool   = false
+	sendFrom string = ""
+	sendTo   string = ""
+	amount   int    = 0
 )
-
-func stopNode(cmd *cobra.Command, args []string) {
-
-	if !isNodeRunning() {
-		fmt.Println("Node is not running")
-		return
-	}
-
-	info := utils.GetNodeInfo()
-
-	var command *exec.Cmd
-
-	if runtime.GOOS == "windows" {
-		command = exec.Command("taskkill", "/f", "/pid", strconv.Itoa(info.PID))
-	} else {
-		command = exec.Command("kill", strconv.Itoa(info.PID))
-	}
-
-	if err := command.Run(); err != nil {
-		panic(err)
-	}
-
-	os.Remove("port.pid")
-}
 
 func createBlockChain(cmd *cobra.Command, args []string) {
 	address := args[0]
@@ -186,31 +149,7 @@ func createWallet(cmd *cobra.Command, args []string) {
 	fmt.Printf("New address is: %s\n", address)
 }
 
-
-func isNodeRunning() bool {
-	fs, err := os.Stat("port.pid")
-
-	if err != nil {
-		return false
-	}
-
-	if fs.Size() == 0 {
-		return false
-	}
-
-	return true
-}
-
-
-
-
-
-
-
-/*
-
 func createPublisher(cmd *cobra.Command, args []string) {
-
 	nodeInfo := utils.GetNodeInfo()
 	if nodeInfo == nil {
 		fmt.Println("'port.pid' file exists, proceeding to start publisher node.")
@@ -223,30 +162,6 @@ func createPublisher(cmd *cobra.Command, args []string) {
 func createSubscriber(cmd *cobra.Command, args []string) {
 	fmt.Println("Starting subscriber node...")
 	network.P2p(false)
-
-}*/
-
-func createPublisher(cmd *cobra.Command, args []string) {
-
-	if isNodeRunning() {
-		fmt.Println("Node is already running")
-		return
-	}
-
-	exec.Command("node.exe", "-p").Start()
-
-}
-
-func createSubscriber(cmd *cobra.Command, args []string) {
-
-	if isNodeRunning() {
-		fmt.Println("Node is already running")
-		return
-	}
-
-	exec.Command("node.exe").Start()
-
-
 }
 
 func getData(cmd *cobra.Command, args []string) {
@@ -254,7 +169,6 @@ func getData(cmd *cobra.Command, args []string) {
 	defer chains.Database.Close()
 
 	chains.GetData()
-
 }
 
 func getBalance(cmd *cobra.Command, args []string) {
