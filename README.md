@@ -18,6 +18,11 @@ Diego Vergara
 
 El proyecto consiste en la elaboración de sistema de cadena de bloques (Blockchain) en la cual se diseña e implementa una red P2P que permite el funcionamiento de un servicio de transacciones sobre una Blockchain. El sistema está implementado mediante Golang y LevelDB.
 
+## Arquitectura
+El siguiente diagrama describe gráficamente la arquitectura de la red de blockchain. Se sigue un diseño de red Pub-Sub, donde el nodo Publicador permite la ejecución de funciones, mientras que los nodos Suscriptores permiten el almacenamiento y distribución de datos.
+
+![image](https://github.com/benja-iag/blockchain/assets/72109509/c7a401db-91d0-482d-88c1-cb2a5e741ce3)
+
 ## Características
 
 ### Block
