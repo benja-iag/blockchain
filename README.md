@@ -7,10 +7,16 @@ Versión: 3.0
 Trello [here:](https://trello.com/invite/b/6WKRprW0/ATTI7361f964a6ed79459b46af15b121fc76E1CC819F/blockchain)
 
 ----
+## Integrantes
+
+Benjamín Alonso
+Enrique Acosta
+Christian Bastías
+Diego Vergara
 
 ## Descripción del proyecto
 
-El proyecto consiste en la elaboración de sistema de cadena de bloques (Blockchain). El sistema está implementado mediante Golang y LevelDB.
+El proyecto consiste en la elaboración de sistema de cadena de bloques (Blockchain) en la cual se diseña e implementa una red P2P que permite el funcionamiento de un servicio de transacciones sobre una Blockchain. El sistema está implementado mediante Golang y LevelDB.
 
 ## Características
 
