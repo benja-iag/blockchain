@@ -80,6 +80,7 @@ func ContinueBlockChain() *Blockchain {
 
 	db, err := database.NewLevelDB(dbPath)
 	if err != nil {
+		fmt.Println("ContinueBlockChain: Error opening database")
 		log.Panic(err)
 	}
 
