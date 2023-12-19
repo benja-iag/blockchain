@@ -1,8 +1,8 @@
 # Proyecto de Blockchain
 
-Fecha: 29-11-2023
+Fecha: 19-12-2023
 
-Versión: 2.0
+Versión: 3.0
 
 Trello [here:](https://trello.com/invite/b/6WKRprW0/ATTI7361f964a6ed79459b46af15b121fc76E1CC819F/blockchain).
 
@@ -45,7 +45,8 @@ El archivo establece dos llaves: Pública y Privada. La Privada es única y se u
 Entrega una dirección de wallet, diferente cada vez que se ejecuta. Se almacena en la DB automáticamente.
 
 #### Ejemplo:
- ![createwallet](https://imgur.com/PLUvyhW)
+
+![image](https://github.com/benja-iag/blockchain/assets/72109509/4f6fafa4-a8c4-42ce-abee-cb863d873780)
 
  
 
@@ -57,7 +58,8 @@ Entrega el listado de direcciones creadas en el sistema.
 
 #### Ejemplo:
 
-![listaddresses](https://imgur.com/pPUD0UR)
+![image](https://github.com/benja-iag/blockchain/assets/72109509/2a042e0d-1a88-4a86-bfb1-618c7d0865cc)
+
 
 
 
@@ -67,14 +69,11 @@ Para inicializar el sistema, se ejecuta el siguiente comando:
 
 ```$ go run main.go createblockchain <DIRECCION>```
 
-
-
-
 Se reemplaza `<DIRECCION>` por la dirección que se desea definir. La cadena se inicializa con una recompensa de 100 unidades para el usuario de dicha dirección. 
 **IMPORTANTE**: La dirección para crear la blockchain debe ser una dirección de wallet creada anteriormente.
 
 #### Ejemplo
-![createblockchain](https://imgur.com/S6NZKiw)
+![image](https://github.com/benja-iag/blockchain/assets/72109509/32894f71-fbc8-4a0e-8356-c19a02366e1a)
 
 ### send
 
@@ -83,7 +82,7 @@ Se reemplaza `<DIRECCION>` por la dirección que se desea definir. La cadena se 
 Se reemplaza `<DIRECCION_1>` por la dirección desde la que se desea enviar unidades. Se reemplaza `<DIRECCION_2>` por la dirección hacia la que se desea recibir unidades. Se reemplaza `<CANTIDAD>` por el total de unidades que se desea transferir.
 
 #### Ejemplo:
-![send](https://imgur.com/wDwhYOe)
+![image](https://github.com/benja-iag/blockchain/assets/72109509/39f9940d-b2ea-4809-a6db-214d27837a8e)
 
 
 ### getbalance
@@ -94,15 +93,17 @@ Se reemplaza `<DIRECCION>` por la dirección del usuario sobre el cual se desea 
 
 
 #### Ejemplo:
-![getbalance](https://imgur.com/NT7ePGi)
+![image](https://github.com/benja-iag/blockchain/assets/72109509/5cf25374-7f3d-4ec1-a040-b7c63afe2a53)
+
 
 ### printchain
 
 ```$ go run main.go printchain```
 
 Imprime la cadena.
+#### Ejemplo:
+![image](https://github.com/benja-iag/blockchain/assets/72109509/d0b114a6-a30a-449e-a1d8-95f5e067d8e6)
 
-![printchain](https://imgur.com/WiDvZmR)
 
 
 
