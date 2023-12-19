@@ -3,7 +3,6 @@ package wallet
 import (
 	"bytes"
 	"encoding/gob"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"log"
@@ -38,9 +37,6 @@ func (ws Wallets) GetWallet(address string) (*Wallet, error) {
 func (ws *Wallets) GetAllAddresses() []string {
 	var addresses []string
 	for address := range ws.Wallets {
-		w := ws.Wallets[address]
-		pubKey, privKey := w.PublicKey, w.PrivateKey
-		fmt.Println(hex.EncodeToString(pubKey), hex.EncodeToString(privKey))
 		addresses = append(addresses, address)
 	}
 	return addresses
@@ -86,6 +82,7 @@ func (ws *Wallets) SaveFile() {
 		log.Panic(err)
 	}
 }
+
 func (ws *Wallets) LoadFile() error {
 	_, err := os.Stat(walletFile)
 	if err != nil {

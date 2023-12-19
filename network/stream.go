@@ -149,10 +149,10 @@ func CreateStreamHandler(node host.Host, publisher bool) host.Host {
 	log.Printf("Creating handlers...")
 
 	node.SetStreamHandler("/super-protocol/1.0.0", func(s network.Stream) {
-		log.Printf("Ha llegado carta")
+		log.Printf("Connection with node successfully established")
 		rw := bufio.NewReadWriter(bufio.NewReader(s), bufio.NewWriter(s))
 		if publisher {
-			go WriteData(rw)
+			WriteData(rw)
 		} else {
 			go ReadData(rw)
 		}
