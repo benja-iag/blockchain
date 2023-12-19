@@ -4,7 +4,7 @@ Fecha: 19-12-2023
 
 Versión: 3.0
 
-Trello [here:](https://trello.com/invite/b/6WKRprW0/ATTI7361f964a6ed79459b46af15b121fc76E1CC819F/blockchain).
+Trello [here:](https://trello.com/invite/b/6WKRprW0/ATTI7361f964a6ed79459b46af15b121fc76E1CC819F/blockchain)
 
 ----
 
@@ -32,7 +32,9 @@ Este módulo define la estructura disponible del sistema para la interacción de
 
 ### Wallet
 
-El archivo establece dos llaves: Pública y Privada. La Privada es única y se usa como identificador, mientras que la Pública se comparte. La generación de direcciones se realiza a través de cálculos en una curva elíptica con ECDSA. La llave Privada se extrae de este proceso, y la llave Pública se deriva mediante algoritmos de hash. La dirección Pública final se obtiene combinando varios elementos y procesándolos mediante base 58. En general, el módulo determina y facilita la creación de direcciones con lógica Privada para funciones en el sistema. <DIRECCIÓN> corresponde al hash que entrega la función.
+El archivo establece dos llaves: Pública y Privada. La Privada es única y se usa como identificador, mientras que la Pública se comparte. La generación de direcciones se realiza a través de cálculos en una curva elíptica con ECDSA. La llave Privada se extrae de este proceso, y la llave Pública se deriva mediante algoritmos de hash. La dirección Pública final se obtiene combinando varios elementos y procesándolos mediante base 58. En general, el módulo determina y facilita la creación de direcciones con lógica Privada para funciones en el sistema.
+
+**Importante**: <DIRECCIÓN> corresponde al hash que entrega la función createwallet.
 
 ## Funciones disponibles
 
