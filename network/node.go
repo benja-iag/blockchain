@@ -11,50 +11,6 @@ import (
 	"github.com/libp2p/go-libp2p/core/protocol"
 	"github.com/multiformats/go-multiaddr"
 )
-
-/*
-	func createSourceNode() host.Host {
-		node, err := libp2p.New()
-		if err != nil {
-			panic(err)
-		}
-		return node
-	}
-
-	func createTargetNode(multiAddr multiaddr.Multiaddr, privKey crypto.PrivKey) (host.Host, error) {
-		node, err := libp2p.New(
-			libp2p.ListenAddrs(multiAddr),
-			libp2p.Identity(privKey),
-		)
-		if err != nil {
-			return nil, err
-		}
-		return node, nil
-	}
-
-	func connectToTargetNode(sourceNode host.Host, targetNode host.Host) error {
-		targetNodeAddressInfo := host.InfoFromHost(targetNode)
-		err := sourceNode.Connect(context.Background(), *targetNodeAddressInfo)
-		return err
-	}
-
-	func countSourceNodePeers(sourceNode host.Host) int {
-		return len(sourceNode.Network().Peers())
-	}
-
-	func printNodeID(node host.Host) {
-		println(fmt.Sprintf("Node ID: %s", node.ID().String()))
-	}
-
-	func printNodeAddress(node host.Host) {
-		addressesString := make([]string, 0)
-		for _, address := range node.Addrs() {
-			addressesString = append(addressesString, address.String())
-		}
-		println(fmt.Sprintf("Multiaddresses: %s", strings.Join(addressesString, ",")))
-
-}
-*/
 func P2p(publisher bool) {
 
 	fmt.Println("Starting the node")
