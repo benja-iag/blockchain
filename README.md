@@ -118,9 +118,28 @@ Imprime la cadena.
 #### Ejemplo:
 ![image](https://github.com/benja-iag/blockchain/assets/72109509/d0b114a6-a30a-449e-a1d8-95f5e067d8e6)
 
+### createpublisher
+
+```go run main.go createpublisher```
+Permite levantar un nodo publicador.
+
+#### Ejemplo:
+![image](https://github.com/benja-iag/blockchain/assets/72109509/27470687-23d4-47b1-a5c1-c4a61c5cab3f)
+
+### createsubscriber
+
+```go run main.go createsubscriber```
+Permite levantar un nodo suscriptor. Se recomienda ejecutar este comando en otra terminal tras haber ejecutador el comando **createpublisher**.
+
+#### Ejemplo:
+![image](https://github.com/benja-iag/blockchain/assets/72109509/1ca7d7f9-a032-41d1-a2c5-a32acecb81e1)
+
+### ---
+**Nota al 19/12:** *Al momento de ejecutar el comando createsubscriber tras haber ejecutado el comando createpublisher, se presenta el error mencionado anteriormente:
+![gnome-shell-screenshot-7q205v](https://github.com/benja-iag/blockchain/assets/72109509/ca41c241-615b-481b-a0db-26d6f888587f)
 
 
-
+###---
 ## Referencias y fuentes
 
 Log Rocket: https://blog.logrocket.com/build-blockchain-with-go/
