@@ -2,10 +2,19 @@ package commandLine
 
 import (
 	"blockchain1/blockchain"
+
 	"blockchain1/utils"
+
+
+
+
+	"blockchain1/network"
+
 	"blockchain1/wallet"
 	"fmt"
-	"strconv"
+
+
+
 
 	"log"
 	"os"
@@ -177,6 +186,7 @@ func createWallet(cmd *cobra.Command, args []string) {
 	fmt.Printf("New address is: %s\n", address)
 }
 
+
 func isNodeRunning() bool {
 	fs, err := os.Stat("port.pid")
 
@@ -190,14 +200,17 @@ func isNodeRunning() bool {
 
 	return true
 }
-func getData(cmd *cobra.Command, args []string) {
-	chains := blockchain.ContinueBlockChain()
-	defer chains.Database.Close()
 
-	chains.GetData()
-}
 
-/*func createPublisher(cmd *cobra.Command, args []string) {
+
+
+
+
+
+/*
+
+func createPublisher(cmd *cobra.Command, args []string) {
+
 	nodeInfo := utils.GetNodeInfo()
 	if nodeInfo == nil {
 		fmt.Println("'port.pid' file exists, proceeding to start publisher node.")
@@ -210,6 +223,7 @@ func getData(cmd *cobra.Command, args []string) {
 func createSubscriber(cmd *cobra.Command, args []string) {
 	fmt.Println("Starting subscriber node...")
 	network.P2p(false)
+
 }*/
 
 func createPublisher(cmd *cobra.Command, args []string) {
@@ -231,6 +245,15 @@ func createSubscriber(cmd *cobra.Command, args []string) {
 	}
 
 	exec.Command("node.exe").Start()
+
+
+}
+
+func getData(cmd *cobra.Command, args []string) {
+	chains := blockchain.ContinueBlockChain()
+	defer chains.Database.Close()
+
+	chains.GetData()
 
 }
 

@@ -4,13 +4,25 @@ Fecha: 19-12-2023
 
 Versión: 3.0
 
+
 Trello [here:](https://trello.com/invite/b/6WKRprW0/ATTI7361f964a6ed79459b46af15b121fc76E1CC819F/blockchain).
 
 ----
+## Integrantes
+
+Benjamín Alonso
+Enrique Acosta
+Christian Bastías
+Diego Vergara
 
 ## Descripción del proyecto
 
-El proyecto consiste en la elaboración de sistema de cadena de bloques (Blockchain). El sistema está implementado mediante Golang y LevelDB.
+El proyecto consiste en la elaboración de sistema de cadena de bloques (Blockchain) en la cual se diseña e implementa una red P2P que permite el funcionamiento de un servicio de transacciones sobre una Blockchain. El sistema está implementado mediante Golang y LevelDB.
+
+## Arquitectura
+El siguiente diagrama describe gráficamente la arquitectura de la red de blockchain. Se sigue un diseño de red Pub-Sub, donde el nodo Publicador permite la ejecución de funciones, mientras que los nodos Suscriptores permiten el almacenamiento y distribución de datos.
+
+![image](https://github.com/benja-iag/blockchain/assets/72109509/c7a401db-91d0-482d-88c1-cb2a5e741ce3)
 
 ## Características
 
@@ -34,7 +46,36 @@ Este módulo define la estructura disponible del sistema para la interacción de
 
 El archivo establece dos llaves: Pública y Privada. La Privada es única y se usa como identificador, mientras que la Pública se comparte. La generación de direcciones se realiza a través de cálculos en una curva elíptica con ECDSA. La llave Privada se extrae de este proceso, y la llave Pública se deriva mediante algoritmos de hash. La dirección Pública final se obtiene combinando varios elementos y procesándolos mediante base 58. En general, el módulo determina y facilita la creación de direcciones con lógica Privada para funciones en el sistema. <DIRECCIÓN> corresponde al hash que entrega la función.
 
+**Importante**: <DIRECCIÓN> corresponde al hash que entrega la función createwallet.
+
 ## Funciones disponibles
+
+En primera instancia, se recomienda seguir los siguientes comandos en el orden en el que se presentan:
+
+
+### createwallet
+
+```$go run main.go createwallet ```
+
+Entrega una dirección de wallet, diferente cada vez que se ejecuta. Se almacena en la DB automáticamente.
+
+#### Ejemplo:
+
+![image](https://github.com/benja-iag/blockchain/assets/72109509/4f6fafa4-a8c4-42ce-abee-cb863d873780)
+
+ 
+
+### listaddresses
+
+```$go run main.go listaddresses```
+
+Entrega el listado de direcciones creadas en el sistema.
+
+#### Ejemplo:
+
+![image](https://github.com/benja-iag/blockchain/assets/72109509/2a042e0d-1a88-4a86-bfb1-618c7d0865cc)
+
+
 
 
 

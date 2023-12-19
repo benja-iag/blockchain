@@ -6,7 +6,9 @@ import (
 	"os"
 )
 
+
 type NodeInfo struct {
+
 	Port      int  `json:"port"`
 	PID       int  `json:"pid"`
 	Publisher bool `json:"publisher"`
