@@ -3,6 +3,7 @@ package wallet
 import (
 	"bytes"
 	"encoding/gob"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"log"
@@ -13,6 +14,11 @@ const walletFile = "./tmp/wallets.data"
 
 type Wallets struct {
 	Wallets map[string]*Wallet
+}
+
+type WalletWithAddress struct {
+	Address string
+	Wallet  Wallet
 }
 
 func CreateWallets() (*Wallets, error) {
@@ -31,11 +37,32 @@ func (ws Wallets) GetWallet(address string) (*Wallet, error) {
 }
 func (ws *Wallets) GetAllAddresses() []string {
 	var addresses []string
-
 	for address := range ws.Wallets {
+		w := ws.Wallets[address]
+		pubKey, privKey := w.PublicKey, w.PrivateKey
+		fmt.Println(hex.EncodeToString(pubKey), hex.EncodeToString(privKey))
 		addresses = append(addresses, address)
 	}
 	return addresses
+}
+
+// This functions will be used by the publisher node to send all the wallets
+// with his addresses to the subscribers nodes
+func (ws *Wallets) GetAddressAndWallets() []WalletWithAddress {
+	var addresses []WalletWithAddress
+	for address := range ws.Wallets {
+		w := ws.Wallets[address]
+		addresses = append(addresses, WalletWithAddress{address, *w})
+	}
+	return addresses
+}
+func (ws *Wallets) InsertNewWallets(wallets []WalletWithAddress) {
+	for _, wallet := range wallets {
+		if ws.Wallets[wallet.Address] == nil {
+			ws.Wallets[wallet.Address] = &wallet.Wallet
+		}
+	}
+	ws.LoadFile()
 }
 func (ws *Wallets) AddWallet() string {
 	wallet := MakeWallet()
